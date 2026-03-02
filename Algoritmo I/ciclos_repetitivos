@@ -1,0 +1,71 @@
+//CICLOS REPETITIVOS: LA GUERRA SILENCIOSA
+
+Algoritmo ciclos_repetitivos
+Inicio
+    amenaza_max = 0;
+    Mostrar <<"¡BIENVENIDO A LA GUERRRA SILENCIOSA INICIEMOS!";
+
+    Repetir 
+        Mostrar <<"Ingresa el nivel de amenaza (1-10): ";
+            Leer Na;
+
+            mientras (Na < 1 o Na > 10) Hacer;
+                Mostrar <<"Nivel de amenaza inválido. Por favor, ingresa un número entre 1 y 10: ";
+                Leer Na;
+            Fin_Mientras
+
+        Si (Na > amenaza_max) Entonces;
+            amenaza_max = Na;
+        Fin_si
+
+        Si (Na >= 1) OR (Na <= 4) Entonces;
+            Mostrar <<"Zona tranquila, ¡sigamos!";
+        Fin_si
+
+        Si (Na >= 5) OR (Na <= 7) Entonces;
+            Mostrar<< "Actividad sospechosa, ¡Atentos!"; 
+        Fin_si
+
+        Si (Na >= 8) OR (Na <= 10) Entonces;
+            Mostrar<<"Peligro inminente, ¡Corramos!";
+        Fin_si
+
+        Mostrar<<"Ahora midamos el estado del refugio";
+        Mostrar<<"Ingresa el nivel de estabilidad del refugio (1-10)";
+            Leer>>Er;
+
+        Mientras (Er <1 OR Er >10) Hacer;
+            Mostrar <<"Nivel registrado invalido. Por favor, ingresa un número entre 1 y 10: ";
+            Leer Er;
+        Fin_Mientras
+
+        Si (Er < estabilidad_max) Entonces;
+            estabilidad_max = Er;
+        Fin_si
+        
+        Si (Er >=1) OR (Er >=4) Entonces;
+            Mostrar<<"Refugio frágil, ¡HAY QUE HUIR!";
+        Fin_Si
+
+        Si (Er >=5) OR (Er >=7) Entonces;
+            Mostrar<<"Refugio aceptable, uff estamos bien por ahora";
+        Fin_Si
+
+        Si (Er >=8) OR (Er >=10) Entonces;
+            Mostrar<<"Refugio seguro, ¡excelente estamos muy bien!";
+        Fin_Si
+
+        Conteo_chequeos = Conteo_chequeos + 1;
+
+        Mostrar<<"Desea realizar otro chequeo? S: Si, N: No";
+            Leer>>R;
+
+    Hasta que ( R = 'N')
+    Fin_repetir
+
+    Mostrar<<"¡GUERRRA SILENCIOSA FINALIZADA!";
+    Mostrar<<"Te mostrare los reportes a continuacion:";
+    Mostrar<<"Cantidad de chequeos:", Conteo_chequeos;
+    Mostrar<<"Punto maximo de amenaza",amenaza_max;
+    Mostrar<<"Punto mas debil del refugio",estabilidad_max;
+Fin
