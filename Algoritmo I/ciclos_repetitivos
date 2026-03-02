@@ -1,3 +1,37 @@
+/*
+Los Espectros Digitales continúan huyendo mientras Meridian y Los Arquitectos intensifican la búsqueda, Drones, rastreadores térmicos y barridos satelitales se despliegan por todo el continente. Cada noche, antes de decidir si pueden quedarse en el refugio o deben huir, el equipo realiza el Protocolo de Amenazas y Estabilidad, una rutina esencial para sobrevivir, de la siguiente manera
+En este protocol, nuestros personajes trabajan asi:
+•	Zero analiza señales anómalas en la red.
+•	Hex detecta patrones de vigilancia gubernamental.
+•	Daemon monitorea canales cifrados en busca de actividad sospechosa.
+•	Void rastrea rumores en foros clandestinos.
+•	Cipher, ahora aliada temporal, interpreta señales militares.
+•	Prophet, siempre enigmático, observa en silencio.
+Cada chequeo devuelve dos valores del 1 al 10:
+•	Nivel de amenaza (qué tan cerca está Meridian o Los Arquitectos).
+•	Nivel de estabilidad del refugio (qué tan seguro es quedarse allí).
+Clasificación de amenaza:
+•	1 a 4 → Zona tranquila
+•	5 a 7 → Actividad sospechosa
+•	8 a 10 → Peligro inminente
+Clasificación de estabilidad:
+•	1 a 4 → Refugio frágil
+•	5 a 7 → Refugio aceptable
+•	8 a 10 → Refugio seguro
+Es por esto que, se ve debe crear un algoritmo que haga lo siguiente:
+1.	Pida al usuario el nivel de amenaza detectado N cantidad de veces.
+2.	Pida el nivel de estabilidad del refugio N cantidad de veces.
+3.	Lleve un conteo de cuántos chequeos se realizaron.
+4.	Realice un reporte al final de:
+o	cuántos chequeos se hicieron
+o	la clasificación del último nivel de amenaza (es decir cuál fue el punto en el que fueron más vulnerables)
+o	la clasificación del último nivel de estabilidad (es decir cuál fue el punto en el que fueron más vulnerables)
+
+
+El ejercicio debe resolverse usando un ciclo repetitivos, y condicionales.
+*/
+
+
 //CICLOS REPETITIVOS: LA GUERRA SILENCIOSA
 
 Algoritmo ciclos_repetitivos
