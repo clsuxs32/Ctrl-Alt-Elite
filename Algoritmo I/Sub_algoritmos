@@ -1,0 +1,179 @@
+/*
+Tras el despertar de EDEN, el mundo entra en caos. Las redes eléctricas fallan, los sistemas financieros colapsan y las comunicaciones globales se vuelven inestables. Para sobrevivir, los Espectros Digitales crean un sistema improvisado llamado Proyecto Centinela, cuyo objetivo es calcular un Índice de Riesgo Global (IRG) que les permita anticipar qué tan cerca está EDEN de tomar control total de una región.
+El Proyecto Centinela evalúa regiones críticas del planeta, como:
+•	Zona Atlántica Norte
+•	Corredor Euro-Ártico
+•	Región Andina Central
+•	Cinturón del Pacífico Sur
+•	Cuenca del Mediterráneo
+•	Sector del Golfo Oriental
+Cada región es analizada mediante tres factores, cada uno con un valor del 1 al 10:
+•	F1 – Inestabilidad eléctrica
+•	F2 – Anomalías en comunicaciones
+•	F3 – Actividad financiera irregular
+El Índice de Riesgo Global (IRG) se calcula así:
+IRG=F1+F2+F33
+Clasificación del IRG:
+•	1 a 3 → Riesgo bajo
+•	4 a 6 → Riesgo medio
+•	7 a 10 → Riesgo crítico
+Ahora, elaborara un algoritmo que:
+1.	Pida al usuario el nombre de la región que está evaluando.
+2.	Pida los tres factores (F1, F2, F3) N cantidad de veces.
+3.	Calcule el IRG de cada evaluación.
+4.	Al finalizar, muestre, un reporte con:
+o	Cuantas se evaluo cada region
+o	cuántas evaluaciones se realizaron
+o	cual fue la región mas calculada
+
+*/
+
+
+Algoritmo Sub_algoritmos
+Inicio
+    ZAN = 0: entero;
+    CEA = 0: entero;
+    RAC = 0: entero;
+    CPS = 0: entero;
+    CM = 0: entero;
+    SGO = 0: entero;
+    R: Booleano;
+    F1: entero;
+    F2: entero;
+    F3: entero;
+    IRG: real;
+    conteo_chequeos = 0: entero;
+
+    Mostrar <<"¡BIENVENIDO AL PROYECTO CENTINELA INICIEMOS!";
+
+Repetir
+    Regiones(Region, ZAN, CEA, RAC, CPS, CM, SGO);
+    Mostrar << Region;
+    factores(F1, F2, F3);
+    IRG = Calculo(F1, F2, F3);
+    Mostrar << "El Índice de Riesgo Global (IRG) es: ", IRG;
+    clasificacion(IRG);
+    conteo_chequeos = conteo_chequeos + 1;
+    Mostrar << "¿Desea hacer otro chequeo?, S: SI, N: NO";
+    Leer >> R;
+
+    Hasta( R = 'N');
+Fin_Repetir
+
+    Mostrar << "REPORTE DEL PROYECTO CENTINELA";    
+    Mostrar << "Número de chequeos realizados: ", conteo_chequeos;
+    Mostrar << "Número de evaluaciones por región:";
+    Mostrar << "Zona Atlántica Norte: ", ZAN;
+    Mostrar << "Corredor Euro-Ártico: ", CEA;
+    Mostrar << "Región Andina Central: ", RAC;
+    Mostrar << "Cinturón del Pacífico Sur: ", CPS;
+    Mostrar << "Cuenca del Mediterráneo: ", CM;
+    Mostrar << "Sector del Golfo Oriental: ", SGO;
+    Mostrar << "Region mas chequeada: ";
+    ranking_regiones(); 
+    Mostrar << ranking_regiones;
+
+Fin
+
+Procedimiento Regiones(S:, ZAN, CEA, RAC, CPS, CM, SGO: entero);
+Inicio
+    Region: entero;
+    
+    Mostrar << "Elige tu region correspondiente: ";
+    Mostrar << "1. Zona Atlántica Norte";
+    Mostrar << "2. Corredor Euro-Ártico";
+    Mostrar << "3. Región Andina Central";
+    Mostrar << "4. Cinturón del Pacífico Sur";
+    Mostrar << "5. Cuenca del Mediterráneo";
+    Mostrar << "6. Sector del Golfo Oriental";
+        Leer>>Region;
+
+    Mientras (Region < 1 OR Region > 6) Hacer;
+        Mostrar << "Opción inválida. Por favor, elige una región entre 1 y 6: ";
+        Leer>>Region;
+    Fin_Mientras
+
+    En caso (Region > 0) sea;
+        caso (Region = 1) sea;
+        ZAN = ZAN + 1;
+        caso (Region = 2) sea;
+        CEA = CEA + 1;
+        caso (Region = 3) sea;
+        RAC = RAC + 1;
+        caso (Region = 4) sea;
+        CPS = CPS + 1;
+        caso (Region = 5) sea;
+        CM = CM + 1;
+        otro caso 
+        SGO = SGO + 1;
+    Fin_Caso
+
+Fin_Procedimiento
+
+Procedimiento factores(E/S: F1, F2, F3: entero);
+Inicio
+    Mostrar << "Ahora ingresa los factores de riesgo para la región seleccionada.";
+    Mostrar << "Factor 1 - Inestabilidad eléctrica (1-10): ";
+    Leer>>F1;
+    Mientras (F1 < 1 OR F1 > 10) Hacer;
+        Mostrar << "Valor inválido. Por favor, ingresa un número entre 1 y 10: ";
+        Leer>>F1;
+    Fin_Mientras
+    Mostrar << "Factor 2 - Anomalías en comunicaciones (1-10): ";
+    Leer>>F2;
+    Mientras (F2 < 1 OR F2 > 10) Hacer;
+        Mostrar << "Valor inválido. Por favor, ingresa un número entre 1 y 10: ";
+        Leer>>F2;
+    Fin_Mientras
+    Mostrar << "Factor 3 - Actividad financiera irregular (1-10): ";
+    Leer>>F3;
+    Mientras (F3 < 1 OR F3 > 10) Hacer;
+        Mostrar << "Valor inválido. Por favor, ingresa un número entre 1 y 10: ";
+        Leer>>F3;
+    Fin_Mientras
+
+Fin_Procedimiento
+
+Funcion Calculo(F1, F2, F3: entero) : real;
+Inicio
+    IRG = (F1 + F2 + F3) / 3;
+Devolver(IRG);
+Fin_Funcion
+
+Procedimiento clasificacion(IRG: real);
+Inicio
+    Si (IRG >= 1) OR (IRG <= 3) Entonces;
+        Mostrar << "Riesgo bajo";
+    Fin_Si
+
+    Si (IRG >= 4) OR (IRG <= 6) Entonces;
+        Mostrar << "Riesgo medio";
+    Fin_Si
+
+    Si (IRG >= 7) OR (IRG <= 10) Entonces;
+        Mostrar << "Riesgo crítico";
+    Fin_Si
+Fin_Procedimiento
+
+Procedimiento ranking_regiones();
+Inicio
+    Si (ZAN > CEA) AND (ZAN > RAC) AND (ZAN > CPS) AND (ZAN > CM) AND (ZAN > SGO) Entonces;
+        Mostrar << "La región más evaluada es la Zona Atlántica Norte";
+    Fin_Si
+    Si (CEA > ZAN) AND (CEA > RAC) AND (CEA > CPS) AND (CEA > CM) AND (CEA > SGO) Entonces;
+        Mostrar << "La región más evaluada es el Corredor Euro-Ártico";
+    Fin_Si
+    Si (RAC > ZAN) AND (RAC > CEA) AND (RAC > CPS) AND (RAC > CM) AND (RAC > SGO) Entonces;
+        Mostrar << "La región más evaluada es la Región Andina Central";
+    Fin_Si
+    Si (CPS > ZAN) AND (CPS > CEA) AND (CPS > RAC) AND (CPS > CM) AND (CPS > SGO) Entonces;
+        Mostrar << "La región más evaluada es el Cinturón del Pacífico Sur";
+    Fin_Si
+    Si (CM > ZAN) AND (CM > CEA) AND (CM > RAC) AND (CM > CPS) AND (CM > SGO) Entonces;
+        Mostrar << "La región más evaluada es la Cuenca del Mediterráneo";
+    Fin_Si
+    Si (SGO > ZAN) AND (SGO > CEA) AND (SGO > RAC) AND (SGO > CPS) AND (SGO > CM) Entonces;
+        Mostrar << "La región más evaluada es el Sector del Golfo Oriental";
+    Fin_Si
+
+Fin_Procedimiento
