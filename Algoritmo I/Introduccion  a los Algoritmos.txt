@@ -1,0 +1,116 @@
+/*
+Martín "Zero" Vega y su equipo necesitan calcular datos básicos sobre sus integrantes y el proyecto OASIS para preparar su primer hackeo a Meridian Corp.
+
+Realizar los siguientes cálculos e impresiones utilizando únicamente variables simples y operaciones aritméticas básicas(suma de todas las edades, promedio de años de experiencia del equipo, año del proyecto oasis, presupuesto total de Meridiam):
+
+datos de los miembros:
+Miembro                      Alias             Edad          Años_de_experiencia
+Martín Vega                  Zero              13                   2
+Lucía Morales                Hex               17                   5
+Santiago Herrera             Daemon            15                   4
+Valentina Rojas              Void              16                   3
+
+Datos del Proyecto: OASIS
+Año de inicio del proyecto: 2015
+Año actual: 2026
+Ingenieros en Meridian: 150
+Servidores monitoreados: 5000
+Presupuesto por ingeniero: 120000$
+
+*/
+
+
+
+
+Algoritmo Datos_iniciales
+
+INICIO
+var nombre1, nombre2, nombre3, nombre4, alias1, alias2, alias3, alias4: cadena, edad1, edad2, edad3, edad4, expe1, expe2, expe3, expe4, anno_inicio, anno_actual, num_ingenieros, num_servidores, presupuesto_ingeniero: entero;
+   
+    // Miembro 1: Martín "Zero" Vega
+    alias1 = "Zero";
+    nombre1 = "Martín Vega";
+    edad1 = 13;
+    expe1 = 2;
+
+    // Miembro 2: Lucía "Hex" Morales
+    alias2 = "Hex";
+    nombre2 = "Lucía Morales";
+    edad2 = 17;
+    expe2 = 5;
+
+    // Miembro 3: Santiago "Daemon" Herrera
+    alias3 = "Daemon";
+    nombre3 = "Santiago Herrera";
+    edad3 = 15;
+    expe3 = 4;
+
+    // Miembro 4: Valentina "Void" Rojas
+    alias4 = "Void";
+    nombre4 = "Valentina Rojas";
+    edad4 = 16;
+    expe4 = 3;
+
+    // ========================================
+    // DATOS DE MERIDIAN CORP Y PROYECTO OASIS
+    // ========================================
+
+    anno_inicio = 2015;
+    anno_actual = 2024;
+    num_ingenieros = 150;
+    num_servidores = 5000;
+    presupuesto_ingeniero = 120000;
+
+   
+    // Años del proyecto OASIS
+    annos_proyecto = anno_actual - anno_inicio;
+
+    // Presupuesto total de Meridian
+    presupuesto_total = num_ingenieros * presupuesto_ingeniero;
+
+    // Promedio de experiencia del equipo
+    experiencia_total = experiencia1 + experiencia2 + experiencia3 + experiencia4;
+    promedio_experiencia = experiencia_total / 4;
+
+    // Suma de edades del equipo
+    suma_edades = edad1 + edad2 + edad3 + edad4;
+
+ 
+    ESCRIBIR "========================================"
+    ESCRIBIR "     LOS ESPECTROS DIGITALES"
+    ESCRIBIR "========================================"
+  
+    ESCRIBIR "--- PERFIL DE INTEGRANTES ---";
+    ESCRIBIR "1. ", alias1, " - ", nombre1;
+    ESCRIBIR "   Edad: ", edad1, " años";
+    ESCRIBIR "   Experiencia: ", experiencia1, " años";
+  
+    ESCRIBIR "2. ", alias2, " - ", nombre2;
+    ESCRIBIR "   Edad: ", edad2, " años";
+    ESCRIBIR "   Experiencia: ", experiencia2, " años";
+   
+    ESCRIBIR "3. ", alias3, " - ", nombre3;
+    ESCRIBIR "   Edad: ", edad3, " años";
+    ESCRIBIR "   Experiencia: ", experiencia3, " años";
+ 
+    ESCRIBIR "4. ", alias4, " - ", nombre4;
+    ESCRIBIR "   Edad: ", edad4, " años";
+    ESCRIBIR "   Experiencia: ", experiencia4, " años";
+
+    ESCRIBIR "--- ESTADÍSTICAS DEL EQUIPO ---";
+    ESCRIBIR "Suma de edades: ", suma_edades, " años";
+    ESCRIBIR "Promedio de experiencia: ", promedio_experiencia, " años";
+
+    ESCRIBIR "--- INFORMACIÓN DE MERIDIAN CORP ---";
+    ESCRIBIR "Proyecto: OASIS";
+    ESCRIBIR "Años en desarrollo: ", annos_proyecto;
+    ESCRIBIR "Ingenieros asignados: ", num_ingenieros;
+    ESCRIBIR "Servidores monitoreados: ", num_servidores;
+    ESCRIBIR "Presupuesto por ingeniero: $", presupuesto_ingeniero;
+    ESCRIBIR "PRESUPUESTO TOTAL: $", presupuesto_total;
+ 
+    ESCRIBIR "========================================"
+    ESCRIBIR "     PREPARANDO EL HACKEO..."
+    ESCRIBIR "========================================"
+
+FIN
