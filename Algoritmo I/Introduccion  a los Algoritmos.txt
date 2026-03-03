@@ -69,48 +69,49 @@ var nombre1, nombre2, nombre3, nombre4, alias1, alias2, alias3, alias4: cadena, 
     presupuesto_total = num_ingenieros * presupuesto_ingeniero;
 
     // Promedio de experiencia del equipo
-    experiencia_total = experiencia1 + experiencia2 + experiencia3 + experiencia4;
+    experiencia_total = expe1 + expe2 + expe3 + expe4;
     promedio_experiencia = experiencia_total / 4;
 
     // Suma de edades del equipo
     suma_edades = edad1 + edad2 + edad3 + edad4;
 
  
-    ESCRIBIR "========================================"
-    ESCRIBIR "     LOS ESPECTROS DIGITALES"
-    ESCRIBIR "========================================"
+   Mostrar<<"========================================";
+   Mostrar<< "     LOS ESPECTROS DIGITALES";
+   Mostrar<< "========================================";
   
-    ESCRIBIR "--- PERFIL DE INTEGRANTES ---";
-    ESCRIBIR "1. ", alias1, " - ", nombre1;
-    ESCRIBIR "   Edad: ", edad1, " años";
-    ESCRIBIR "   Experiencia: ", experiencia1, " años";
+   Mostrar<< "--- PERFIL DE INTEGRANTES ---";
+   Mostrar<<"1. ", alias1, " - ", nombre1;
+   Mostrar<< "   Edad: ", edad1, " años";
+   Mostrar<< "   Experiencia: ", expe1, " años";
   
-    ESCRIBIR "2. ", alias2, " - ", nombre2;
-    ESCRIBIR "   Edad: ", edad2, " años";
-    ESCRIBIR "   Experiencia: ", experiencia2, " años";
+   Mostrar<< "2. ", alias2, " - ", nombre2;
+   Mostrar<< "   Edad: ", edad2, " años";
+   Mostrar<< "   Experiencia: ", expe2, " años";
    
-    ESCRIBIR "3. ", alias3, " - ", nombre3;
-    ESCRIBIR "   Edad: ", edad3, " años";
-    ESCRIBIR "   Experiencia: ", experiencia3, " años";
+   Mostrar<< "3. ", alias3, " - ", nombre3;
+   Mostrar<< "   Edad: ", edad3, " años";
+   Mostrar<< "   Experiencia: ", expe3, " años";
  
-    ESCRIBIR "4. ", alias4, " - ", nombre4;
-    ESCRIBIR "   Edad: ", edad4, " años";
-    ESCRIBIR "   Experiencia: ", experiencia4, " años";
+   Mostrar<< "4. ", alias4, " - ", nombre4;
+   Mostrar<< "   Edad: ", edad4, " años";
+   Mostrar<< "   Experiencia: ", expe4, " años";
 
-    ESCRIBIR "--- ESTADÍSTICAS DEL EQUIPO ---";
-    ESCRIBIR "Suma de edades: ", suma_edades, " años";
-    ESCRIBIR "Promedio de experiencia: ", promedio_experiencia, " años";
+   Mostrar<< "--- ESTADÍSTICAS DEL EQUIPO ---";
+   Mostrar<< "Suma de edades: ", suma_edades, " años";
+   Mostrar<< "Promedio de experiencia: ", promedio_experiencia, " años";
 
-    ESCRIBIR "--- INFORMACIÓN DE MERIDIAN CORP ---";
-    ESCRIBIR "Proyecto: OASIS";
-    ESCRIBIR "Años en desarrollo: ", annos_proyecto;
-    ESCRIBIR "Ingenieros asignados: ", num_ingenieros;
-    ESCRIBIR "Servidores monitoreados: ", num_servidores;
-    ESCRIBIR "Presupuesto por ingeniero: $", presupuesto_ingeniero;
-    ESCRIBIR "PRESUPUESTO TOTAL: $", presupuesto_total;
+   Mostrar<< "--- INFORMACIÓN DE MERIDIAN CORP ---";
+   Mostrar<< "Proyecto: OASIS";
+   Mostrar<< "Años en desarrollo: ", annos_proyecto;
+   Mostrar<< "Ingenieros asignados: ", num_ingenieros;
+   Mostrar<< "Servidores monitoreados: ", num_servidores;
+   Mostrar<< "Presupuesto por ingeniero: $", presupuesto_ingeniero;
+   Mostrar<< "PRESUPUESTO TOTAL: $", presupuesto_total;
  
-    ESCRIBIR "========================================"
-    ESCRIBIR "     PREPARANDO EL HACKEO..."
-    ESCRIBIR "========================================"
+   Mostrar<< "========================================";
+   Mostrar<< "     PREPARANDO EL HACKEO...";
+   Mostrar<< "========================================";
+
 
 FIN
