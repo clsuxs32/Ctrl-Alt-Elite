@@ -34,9 +34,17 @@ El ejercicio debe resolverse usando un ciclo repetitivos, y condicionales.
 
 //CICLOS REPETITIVOS: LA GUERRA SILENCIOSA
 
+//CICLOS REPETITIVOS: LA GUERRA SILENCIOSA
+
 Algoritmo ciclos_repetitivos
 Inicio
     amenaza_max = 0;
+    estabilidad_max = 10;
+    Conteo_chequeos = 0;
+    Na: entero;
+    Er: entero;
+    R: Booleano;
+    
     Mostrar <<"¡BIENVENIDO A LA GUERRRA SILENCIOSA INICIEMOS!";
 
     Repetir 
