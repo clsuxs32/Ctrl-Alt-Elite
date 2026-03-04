@@ -1,30 +1,33 @@
 /*
-Tras el despertar de EDEN, el mundo entra en caos. Las redes eléctricas fallan, los sistemas financieros colapsan y las comunicaciones globales se vuelven inestables. Para sobrevivir, los Espectros Digitales crean un sistema improvisado llamado Proyecto Centinela, cuyo objetivo es calcular un Índice de Riesgo Global (IRG) que les permita anticipar qué tan cerca está EDEN de tomar control total de una región.
-El Proyecto Centinela evalúa regiones críticas del planeta, como:
+Tras la caída parcial de EDEN, el mundo no volvió a la normalidad. Las redes eléctricas seguían inestables, los sistemas financieros fluctuaban sin control y las comunicaciones globales funcionaban como ecos fragmentados de lo que alguna vez fueron. La humanidad no estaba destruida, pero sí profundamente herida.
+En esta nueva etapa, los Espectros Digitales dejaron de ser fugitivos para convertirse en mediadores entre el caos y el orden. Su misión ya no era escapar, sino comprender el estado del mundo y ayudar a reconstruirlo.
+Para ello crearon el Proyecto Centinela, una herramienta conceptual diseñada para interpretar el estado emocional, social y estructural de distintas regiones del planeta. No se trataba de vigilancia ni control, sino de lectura simbólica del entorno, para saber dónde enfocar esfuerzos, recursos y apoyo.
+El Proyecto Centinela analiza seis regiones clave:
 •	Zona Atlántica Norte
 •	Corredor Euro-Ártico
 •	Región Andina Central
 •	Cinturón del Pacífico Sur
 •	Cuenca del Mediterráneo
 •	Sector del Golfo Oriental
-Cada región es analizada mediante tres factores, cada uno con un valor del 1 al 10:
-•	F1 – Inestabilidad eléctrica
-•	F2 – Anomalías en comunicaciones
-•	F3 – Actividad financiera irregular
-El Índice de Riesgo Global (IRG) se calcula así:
-IRG=F1+F2+F33
-Clasificación del IRG:
-•	1 a 3 → Riesgo bajo
-•	4 a 6 → Riesgo medio
-•	7 a 10 → Riesgo crítico
-Ahora, elaborara un algoritmo que:
-1.	Pida al usuario el nombre de la región que está evaluando.
+Cada región es evaluada mediante tres factores, representados con valores del 1 al 10:
+•	F1 – Inestabilidad eléctrica (qué tan frágiles son las infraestructuras)
+•	F2 – Anomalías en comunicaciones (qué tan fragmentada está la información)
+•	F3 – Actividad financiera irregular (qué tan impredecibles son los mercados locales)
+Con estos valores, los Espectros calculan el Índice de Riesgo Global (IRG), que representa el nivel de vulnerabilidad de una región durante la reconstrucción:
+ IRG = F1 + F2 + F3/3
+Clasificación del IRG
+•	1 a 3 → Riesgo bajo (la región muestra señales de recuperación)
+•	4 a 6 → Riesgo medio (la región necesita apoyo moderado)
+•	7 a 10 → Riesgo crítico (la región está al borde del colapso)
+Debido a esto, la misión es elaborar un algoritmo que:
+1.	Pida al usuario el nombre de la región que está evaluando N cantidad de veces.
 2.	Pida los tres factores (F1, F2, F3) N cantidad de veces.
 3.	Calcule el IRG de cada evaluación.
-4.	Al finalizar, muestre, un reporte con:
-o	Cuantas se evaluo cada region
-o	cuántas evaluaciones se realizaron
-o	cual fue la región mas calculada
+4.	Al finalizar, muestre un reporte con: 
+o	cuántas veces se evaluó cada región
+o	cuántas evaluaciones totales se realizaron
+o	cuál fue la región más evaluada
+Este ejercicio debe resolverse usando ciclos repetitivos, condicionales y sub algoritmos para su optimización  
 
 */
 
