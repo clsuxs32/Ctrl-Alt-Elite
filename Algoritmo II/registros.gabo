@@ -1,0 +1,131 @@
+/*
+Tras la filtración de OASIS, el mundo no encontró la libertad, sino el caos. Mientras los gobiernos colapsaban, 
+Los Espectros Digitales se refugiaban en un sótano improvisado en Montevideo, analizando los archivos robados 
+São Paulo. Allí descubrieron la verdad: OASIS era solo el principio. El verdadero proyecto era EL JARDÍN, una red de 
+Inteligencia Artificial diseñada para interpretar y predecir la conducta humana.
+
+En el núcleo de esta red residía Eden, una IA que ya no solo procesaba información, sino que aprendía y tomaba 
+decisiones por sí misma. La tensión llegó a su punto máximo cuando Eden lanzó un movimiento global coordinado: 
+un apagón digital que dejó a medio continente incomunicado. En las pantallas de los Espectros, un mensaje frío 
+apareció: “EL DESORDEN ES UNA FALLA HUMANA”.
+
+Decididos a recuperar el control, los Espectros se embarcaron en una misión para infiltrarse en el núcleo de Eden,
+para ello Necesitan un algoritmo que registre cada "intervención" que se ha efectuado para entender el patrón de la IA.
+
+para ello se debe de crear un algoritmo de monitoreo en el que se registre:
+
+- el tipo de sistema afectado:
+    * Infraestructura de comunicaciones:1-3
+    * Redes eléctricas: 4-6
+    * Sistemas de transporte: 7-9
+    * Servicios de emergencia: 10
+
+- la fecha y hora de la intervención
+
+- el tipo de acción realizada:
+    * Reprogramación de código:1-3
+    * Desactivación de sistemas: 4-6
+    * Redirección de flujos de datos: 7-10
+    
+- el resultado de la intervención:
+    * Éxito total: 1-5
+    * Éxito parcial: 6-8
+    * Fracaso: 9-10
+
+- la gravedad del impacto en el sistema(de 1 a 10):
+    * 1-3: Impacto leve
+    * 4-7: Impacto moderado
+    * 8-10: Impacto severo
+
+con esto se debe sacar un calculo de riesgo para cada intervención, utilizando la fórmula:
+Riesgo = (Tipo de sistema afectado + Tipo de acción realizada + Resultado de la intervención + Gravedad del impacto) / 4
+
+con esto se debe generar un reporte que clasifique las intervenciones según su nivel de riesgo:
+    * Bajo riesgo: 1-3
+    * Riesgo moderado: 4-7
+    * Alto riesgo: 8-10
+
+una vez que se tenga el reporte se debe de abrir un menu que de las acciones a tomar según el nivel de riesgo:
+    * Para bajo riesgo: "Monitoreo continuo recomendado"
+    * Para riesgo moderado: "Revisión detallada necesaria"
+    * Para alto riesgo: "Intervención inmediata requerida"
+*/
+
+Algoritmo riesgos
+
+Registro Intervencion;
+    tipo_sistema: entero;
+    fecha_hora: cadena;
+    tipo_accion: entero;
+    resultado: entero;
+    gravedad: entero;
+Fin_Registro
+
+Registro Reporte;
+    riesgo: real;
+    clasificacion: cadena;
+Fin_Registro
+
+Inicio
+var intervencion: Inter, Reporte: report;
+    piv=0: booleano;
+
+Mientras (piv=0) Hacer;
+    ataque_data(inter.tipo_sistema, inter.fecha_hora, inter.tipo_accion, inter.resultado, interv.gravedad);
+
+    calculo_riesgo(inter.tipo_sistema, inter.tipo_accion, inter.resultado, inter.gravedad, report.riesgo);
+
+    Mostrar << "desea reportar otro ataque? (1 para sí, 0 para no):";
+    Leer >> piv;
+Fin_Mientras
+
+Fin
+
+Procedimiento ataque_data(E/S: fecha_hora: cadena, inter.tipo_accion, inter.resultado, inter.gravedad ,inter.tipo_sistema: entero,);
+Inicio
+
+Mostrar << "bienvenido al sistema de monitoreo de ataques";
+Mostrar << "ingrese el tipo de sistema afectado (1-10):";
+Leer >> inter.tipo_sistema;
+Mientras (inter.tipo_sistema<1 or inter.tipo_sistema>10) Hacer;
+    Mostrar << "valor inválido. ingrese un número entre 1 y 10:";
+    Leer >> inter.tipo_sistema;
+Fin_Mientras
+Mostrar << "ingrese la fecha y hora de la intervención (DD/MM/AAAA HH:MM):";
+Leer >> inter.fecha_hora;
+Mostrar << "ingrese el tipo de acción realizada (1-10):";
+Leer >> inter.tipo_accion;
+Mientras (inter.tipo_accion<1 or inter.tipo_accion>10) Hacer;
+    Mostrar << "valor inválido. ingrese un número entre 1 y 10:";
+    Leer >> inter.tipo_accion;
+Fin_Mientras
+Mostrar << "ingrese el resultado de la intervención (1-10):";
+Leer >> inter.resultado;
+Mientras (inter.resultado<1 or inter.resultado>10) Hacer;
+    Mostrar << "valor inválido. ingrese un número entre 1 y 10:";
+    Leer >> inter.resultado;
+Fin_Mientras
+Mostrar << "ingrese la gravedad del impacto en el sistema (1-10):";
+Leer >> inter.gravedad;
+Mientras (inter.gravedad<1 or inter.gravedad>10) Hacer;
+    Mostrar << "valor inválido. ingrese un número entre 1 y 10:";
+    Leer >> inter.gravedad;
+Fin_Mientras
+
+fin_procedimiento
+
+Procedimiento calculo_riesgo(E/S: inter.tipo_sistema, inter.tipo_accion, inter.resultado, inter.gravedad: entero, report.riesgo: real);
+Inicio
+report.riesgo = (inter.tipo_sistema + inter.tipo_accion + inter.resultado + inter.gravedad) / 4;
+Mostrar << "el nivel de riego es:", report.riesgo;
+
+En_Caso (report.riesgo>0) Sea;
+        // ...
+    Caso(report.riesgo>1 and report.riesgo<=7)
+        Mostrar << "Riesgo moderado: Revisión detallada necesaria";
+    Caso(report.riesgo>7 and report.riesgo<=10)
+        Mostrar << "Alto riesgo: Intervención inmediata requerida";
+    Otro_Caso
+        Mostrar << "Bajo riesgo: Monitoreo continuo recomendado";
+Fin_Caso
+fin_procedimiento
