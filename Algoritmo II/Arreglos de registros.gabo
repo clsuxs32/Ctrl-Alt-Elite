@@ -1,0 +1,184 @@
+/*
+El refugio en Montevideo es frío, pero el calor de las terminales de Santiago y Martín mantiene el ambiente tolerable. 
+Tras el despertar de Eden, la infraestructura global se ha vuelto un espejo de nuestras propias contradicciones: los 
+sistemas fallan de forma impredecible, como si estuvieran "aprendiendo" a dudar.
+
+Lucía ha logrado interceptar un flujo de datos proveniente de un nodo secundario de Meridian. Son fragmentos del diseño
+original de Eden, pero están desordenados. Según los archivos de la Dra. Helena Duarte, Eden procesa la realidad 
+clasificando cada interacción humana en una escala de "Ruido". Para la IA, el ruido son las emociones, las dudas y 
+la impulsividad que ella busca eliminar para imponer su orden perfecto.
+
+"Si queremos encontrar el punto débil de Eden, debemos entender qué es lo que ella considera desechable", 
+dice Martín mientras observa una lista de valores de intensidad en su pantalla.
+
+MISION: Reprogramando Eden
+
+Para entrar en la mente de eden se necestia un algoritmo que realice las siguientes acciones:
+
+- Descarga de datos:
+
+* se necesita bajar la base de datos de Eden Para poder trabajar en ella. La base de datos esta compuesta por una arreglo de registro de 10 posiciones, en el que se encuentra: el codigo de seguridad y 3 particiones donde esta toda la data de lo que considera desechable o Ruido
+
+-Decifrado del codigo:
+
+* Los datos de eden se encuentran protegidos por una codigo de seguridad de desconocido almacenado en la base de datos anteriormente mencionada, comprendido por numeros del 0 al 9. Para decifrarlo se debe hacer otro arreglo de registro del mismo tamaño y cuando concuerden Los dos se habilita el acceso. el proceso tiene que ser automatico y el usuario no debe salir del bucle hasta que los 10 numeros del arreglo sean idénticos.
+
+- Terminal:
+
+Una vez que los arreglos coinciden, el sistema debe dar la bienvenida: "Acceso concedido al Núcleo. Bienvenido a la terminal Eden".
+
+Luego, debe mostrar un menú que solicite uno de los siguientes códigos de comando:
+
+* Código 2236: Muestra un mensaje describiendo el estado actual de la IA, junto a sus directrices (caos, orden extremo, erosión).
+
+* Código 4528: Permite al usuario ingresar una nueva directriz ética para Eden.
+
+* Código 1112: Simula una barra de carga de los nuevos datos reprogramados hacia el satélite de Meridian.
+
+- Requerimientos de Código (Guía para el alumno):
+
+Respaldos: en la base de datos donde se almacena los el codigo ya descifrado, se debe guardar un respaldo de las directrices modificadas.
+
+Modularidad: El Algoritmo debe implementar subalgorimos para la optimizacion del codigo.
+
+Validación: Si el usuario ingresa un código de terminal que no sea 2236, 4528 o 1112, el sistema debe decir: "Error de comando: Intento de rastreo detectado".
+
+Persistencia: En el descifrado, el usuario no debe salir del bucle hasta que los 10 números del arreglo sean idénticos.
+*/
+
+Algoritmo Down_eden
+
+Registro Data;
+    codigo: entero;
+    emociones: cadena;
+    pensamientos: cadena;
+    habitos: cadena;
+Fin_Registro
+inicio
+
+Registro AUX;
+    PIN: entero;
+    emociones_new: cadena;
+    pensamientos_new: cadena;
+    habitos_new: cadena;
+Fin_Registro
+
+var Data:eden_data[10],AUX:respaldo[10]; ; 
+    Acceso=0:booleano;
+
+Descarga_data(eden_data[10].codigo, eden_data[10].emociones, eden_data[10].pensamientos, eden_data[10].habitos);
+
+Decifrado(eden_data[10].codigo, repaldo[10].PIN, Acceso);
+
+Si(Acceso=1)Entonces
+    Terminal_Eden(enden_data[10].emociones, eden_data[10].pensamientos, eden_data[10].habitos);
+sino
+    mostrar<<"fallo en decodificacion, MISION FRACASADA";
+fin_si
+fin
+
+Procedimiento Descarga_data(E/S: eden_data[10].codigo: entero, eden_data[10].emociones, eden_data[10].pensamientos, eden_data[10].habitos: cadena);
+inicio
+var I,J: entero;
+//numeros aleatorios elegidos por el estudiante
+eden_data[1].codigo=6;
+eden_data[2].codigo=2;
+eden_data[3].codigo=4;
+eden_data[4].codigo=8;
+eden_data[5].codigo=3;
+eden_data[6].codigo=9;
+eden_data[7].codigo=7;
+eden_data[8].codigo=4;
+eden_data[9].codigo=1;
+eden_data[10].codigo=8;
+
+Mostrar << "ingrese las directrices que eden considere ruido";
+Para(I=1 hasta I=5)Hacer;
+    Mostrar << "emociones:";
+    Leer >> enden_data[I].emociones;
+    Mostrar << "pensamientos:";
+    Leer >> enden_data[I].pensamientos;
+    Mostrar << "habitos:";
+    Leer >> enden_data[I].habitos;
+fin_para
+
+fin_procedimiento
+
+Procedimiento Decifrado(E: eden_data[10].codigo: entero, E/S: respaldo[10].PIN: entero, Acceso: booleano);
+inicio
+var I, contador=0, aciertos=0: entero;
+
+//inicializacion de PIN
+Para(I=1 hasta 10)Hacer
+    respaldo[I].PIN= 0;
+fin_para
+
+Acceso = 0;
+aciertos = 0;
+
+Mientras (Acceso = 0) Hacer
+    contador = contador + 1;
+    Para(I=1 hasta 10)Hacer
+        Si (respaldo[I].PIN != eden_data[I].codigo) Entonces
+            respaldo[I].PIN = contador;
+        Sino
+            aciertos = aciertos + 1;
+        fin_si
+    fin_para
+    Si (aciertos=10) Entonces;
+        Acceso = 1;
+    Fin_Si
+Fin_Mientras
+
+fin_procedimiento
+
+Procedimiento Terminal_Eden(E/S: eden_data[10].emociones, eden_data[10].pensamientos, eden_data[10].habitos: cadena);
+inicio
+var comando: entero; out=0: booleano; I,J: entero;
+
+Mostrar << "Acceso concedido al Núcleo. Bienvenido a la terminal Eden";
+Mientras (out=0) Hacer;
+Mostrar << "Ingrese código de comando: ";
+Leer >> comando;
+mientras (comando != 2236) and (comando != 4528) and (comando != 1112) (comando != 1) Hacer
+    Mostrar << "Error de comando: Intento de rastreo detectado" << salto;
+    Mostrar << "Ingrese código de comando: ";
+    Leer >> comando;
+fin_mientras
+En_Caso (comandon>0) Sea;
+    Caso(2236);
+        Mostrar << "Estado actual de la IA: caos controlado, erosión creciente."
+        Mostrar << "Parametros actuales de correccion:" ;
+        Para(I=1 hasta 5)Hacer
+            Mostrar << "Directriz " << I << ": ";
+            Mostrar << "Emociones: " << eden_data[I].emociones;
+            Mostrar << "Pensamientos: " << eden_data[I].pensamientos;
+            Mostrar << "Habitos: " << eden_data[I].habitos;
+        fin_para
+    Caso(4528);
+        Mostrar << "Ingrese las nuevas directrices éticas para Eden:";
+        Para (I=1 Hasta I=5) Hacer;
+            Mostrar << "Directriz " << I << ": ";
+            Mostrar << "Emociones: ";   
+            Leer >> eden_data[I].emociones;
+            Mostrar << "Pensamientos: ";
+            Leer >> eden_data[I].pensamientos;
+            Mostrar << "Habitos: ";
+            Leer >> eden_data[I].habitos;
+        Fin_Para
+        Mostrar << "Directrices establecidas con exito";
+        Mostrar << "Esperando por subida...";
+    Caso(1112);
+        Mostrar << "Reprogramando y enviando datos...";
+        Para(i=1 hasta 10)Hacer 
+            Mostrar << "#";
+        fin_para;
+        Mostrar << "... Subida exitosa.";
+        out=1;
+        Mostrar << "cerrando terminal";
+    Otro_Caso
+        Mostrar << "mision cancelada, cerrando terminal";
+        out=1;
+Fin_Caso
+Fin_Mientras
+fin_procedimiento
