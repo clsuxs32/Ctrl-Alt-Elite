@@ -1,0 +1,334 @@
+/*
+Misión: Arquitectura del Silencio
+
+La caída de Eden no significó que la tecnología desapareciera; significó que, por primera vez, estaba huérfana. En la azotea del viejo edificio en Montevideo, Martín entiende que la libertad es frágil si la información vital sigue centralizada.
+
+Para evitar que una nueva corporación o gobierno autoritario tome el control, Los Espectros Digitales deciden ejecutar el plan "Círculo Incompleto". La idea es fragmentar la base de datos de Gabriel Vega y distribuirla en servidores de Resguardo ocultos a lo largo del continente. "Si Meridian quiere el control, tendrá que buscarlo en diez mil servidores a la vez", sentencia Martín.
+
+Objetivo del Algoritmo:
+
+Desarrollar el "Localizador de Silos" (Red_RDT). El sistema debe mapear una red de servidores automáticos y permitir su gestión a través de búsquedas, filtrados, cálculos de capacidad y de enrutamiento óptimo.
+
+Requerimientos de Código:
+
+Estructuras de Datos:
+* Se requiere un arreglo de registros de 100 posiciones. Cada registro debe contener: La ID del arreglo_servidores[I]dor, Ubicacion, Estado de Red y Capacidad en TB.
+* Se requiere una Matriz 4x4 (Arreglo bidimensional) para manejar las latencias de interconexión entre las ubicaciones principales.
+* Debe existir un mecanismo de usuarios con al menos dos tipos: Normal y Administrador.
+
+Módulo 1 - Mapeo Automático:
+* Cargar los datos de los 100 servidores de forma automática.
+
+Módulo 2 - Validación por Búsqueda:
+* En lugar de fuerza bruta, el sistema pedirá al usuario que encuentre las 3 IDs de los "Nodos Maestros" para acceder.
+
+Módulo 3 - Menú Principal (Flujo Central):
+* El menú debe llamar a los distintos procedimientos:
+    - Comando 1: Filtrar servidores inactivos.
+    - Comando 2: Acumular capacidad total.
+    - Comando 3: Protección de servidores críticos.
+    - Comando 4: Enrutamiento Óptimo (Utilizar de referencia el algoritmo Dijkstra) que determine la latencia (distancia) mínima de conexión entre dos ciudades.
+*/
+
+Algoritmo: Red_RDT
+
+Registro Servidor;
+    ID_Server: entero;
+    Ubicacion: cadena;
+    Estado_Red: cadena;
+    Capacidad_TB: entero;
+Fin_Registro
+
+Registro Usuario;
+    ID: entero;
+    PIN: entero;
+    Rol: entero; // 1: Usuario Normal, 2: Administrador
+Fin_Registro
+
+Inicio
+    var Servidor: arreglo_servidores[100];
+    var Usuarios: lista_usuarios[2];
+    var matriz_latencias[4][4];
+    var Acceso_Nodos=0, Sesion_Activa=0: booleano;
+    var Rol_Actual, input_id, input_pin, I, comando: entero;
+    var nodo_origen, nodo_destino: entero;
+
+    Inicializacion_Usuarios(lista_usuarios[I].ID, lista_usuarios[I].PIN, lista_usuarios[I].Rol);
+    Inicializacion_Rutas(matriz_latencias[I][J]);
+
+    Mostrar << "--- SISTEMA DE ACCESO RDT ---";
+    Mostrar << "Ingrese ID de Usuario: ";
+    Leer >> input_id;
+    Mostrar << "Ingrese PIN de Usuario: ";
+    Leer >> input_pin;
+
+    Para (I = 1 hasta 2) Hacer;
+        Si (lista_usuarios[I].ID = input_id) y (lista_usuarios[I].PIN = input_pin) Entonces;
+            Sesion_Activa = 1;
+            Rol_Actual = lista_usuarios[I].Rol;
+        Fin_Si
+    Fin_Para
+
+    Si (Sesion_Activa = 0) Entonces;
+        Mostrar << "Credenciales incorrectas. Bloqueo de sistema.";
+    Sino
+        Si (Rol_Actual = 2) Entonces;
+            Mostrar << "Bienvenido Admin.";
+        Sino
+            Mostrar << "Bienvenido Usuario.";
+        Fin_Si
+
+        Mapeo_Automatico(arreglo_servidores[I].Ubicacion, arreglo_servidores[I].Estado_Red, arreglo_servidores[I].Capacidad_TB, arreglo_servidores[I].ID_Server);
+    
+        Buscar_Nodos_Maestros(arreglo_servidores[I].ID_Server, Acceso_Nodos);
+
+        Si (Acceso_Nodos = 1) Entonces;
+            Mostrar << "Enlace Seguro Establecido. Bienvenido a la Red de Distribución Transparente (RDT).";
+            
+            Mientras (Sesion_Activa = 1) Hacer;
+                Mostrar << "--- MENÚ RDT ---";
+                Mostrar << "1. Filtrar servidores Inactivos";
+                Mostrar << "2. Calcular Capacidad Total (TB) de la red";
+                Mostrar << "3. Auditar y proteger servidores Críticos (< 5TB)";
+                Mostrar << "4. Interconectar silos (Ruta Óptima - Dijkstra)";
+                Mostrar << "0. Salir y Desconectar";
+                Mostrar << "Ingrese código de comando: ";
+                Leer >> comando;
+                Mientras (comando<0 or comando>4) Hacer;
+                    Mostrar << "Comando inválido. Ingrese un número entre 0 y 4:";
+                    Leer >> comando;
+                Fin_Mientras
+
+                En_Caso (comando>0) Sea;
+                    Caso(comando=1);
+                        Filtrar_Inactivos(arreglo_servidores[I].ID_Server, arreglo_servidores[I].Ubicacion, arreglo_servidores[I].Estado_Red, arreglo_servidores[I].Capacidad_TB);
+
+                    Caso(comando=2);
+                        Calcular_Capacidad(arreglo_servidores[I].Capacidad_TB);
+
+                    Caso(comando=3);
+                        Si (Rol_Actual = 2) Entonces;
+                            Proteger_Criticos(arreglo_servidores[I].Capacidad_TB, arreglo_servidores[I].Estado_Red);
+                        Sino
+                            Mostrar << "Acceso denegado. Se requiere nivel de Administrador para modificar estados masivamente.";
+                        Fin_Si
+
+                    Caso(comando=4);
+                        Mostrar << "--- ENRUTAMIENTO DE RED (LATENCIA EN MS) ---";
+                        Mostrar << "1: Montevideo | 2: Santiago | 3: Buenos Aires | 4: Bogotá";
+                        Mostrar << "Ingrese Nodo Origen (1-4): ";
+                        Leer >> nodo_origen;
+                        Mostrar << "Ingrese Nodo Destino (1-4): ";
+                        Leer >> nodo_destino;
+                        Mientras ((nodo_origen >= 1 and nodo_origen <= 4) and (nodo_destino >= 1 and nodo_destino <= 4)) Hacer;
+                            Mostrar << "Error: Identificador de nodo urbano no válido.";
+                            Mostrar << "Ingrese Nodo Origen (1-4): ";
+                            Leer >> nodo_origen;
+                            Mostrar << "Ingrese Nodo Destino (1-4): ";
+                            Leer >> nodo_destino;
+                        Fin_Mientras
+                            Ruta_Corta_Dijkstra(matriz_latencias[I][J], nodo_origen, nodo_destino);
+                    Otro_Caso
+                        Mostrar << "Cerrando conexión segura. El Círculo está Incompleto, pero seguro.";
+                        Sesion_Activa = 0;
+                Fin_Caso
+            Fin_Mientras
+        Sino
+            Mostrar << "No se localizaron los nodos maestros. Desconexión de emergencia activada.";
+        Fin_Si
+    Fin_Si
+Fin
+
+Procedimiento Inicializacion_Usuarios(E/S: Lista_Usuarios[I].ID, Lista_Usuarios[I].PIN, Lista_Usuarios[I].Rol: entero);
+Inicio
+    // Admin
+    Lista_Usuarios[1].ID = 1010;
+    Lista_Usuarios[1].PIN = 1234;
+    Lista_Usuarios[1].Rol = 2; 
+
+    // Normal
+    Lista_Usuarios[2].ID = 2020;
+    Lista_Usuarios[2].PIN = 4321;
+    Lista_Usuarios[2].Rol = 1; 
+Fin_Procedimiento
+
+Procedimiento Inicializacion_Rutas(E/S: matriz[I][J]: entero);
+Inicio
+    // cada fila y cada columna representan dos ubicaciones y el valor de la casilla representa la distancia que hay entre ellas(Latencia ms).
+    // 1: Montevideo | 2: Santiago | 3: Buenos Aires | 4: Bogotá
+    
+    matriz[1][1] = 0; matriz[1][2] = 30; matriz[1][3] = 10; matriz[1][4] = 80;
+
+    matriz[2][1] = 30; matriz[2][2] = 0; matriz[2][3] = 20; matriz[2][4] = 60;
+    
+    matriz[3][1] = 10; matriz[3][2] = 20; matriz[3][3] = 0; matriz[3][4] = 70;
+    
+    matriz[4][1] = 80; matriz[4][2] = 60; matriz[4][3] = 70; matriz[4][4] = 0;
+Fin_Procedimiento
+
+Procedimiento Mapeo_Automatico(E/S: arreglo_servidores[I].Ubicacion, arreglo_servidores[I].Estado_Red: cadena, arreglo_servidores[I].Capacidad_TB, arreglo_servidores[I].ID_Server: entero);
+Inicio
+    var I, mod_ubi, mod_est, mod_cap: entero;
+    
+    Mostrar << "Inicializando mapeo automático de Silos de Datos...";
+    
+    Para (I = 1 hasta 100) Hacer
+        
+        arreglo_servidores[I].ID_Server = 1000 + I;
+        // aleatoriedad
+        mod_ubi = (I^43242711) Mod 4;
+        En_Caso (mod_ubi) Sea;
+            Caso(0); 
+                arreglo_servidores[I].Ubicacion = "Montevideo/URY";
+            Caso(1); 
+                arreglo_servidores[I].Ubicacion = "Santiago/CHL";
+            Caso(2); 
+                arreglo_servidores[I].Ubicacion = "Buenos Aires/ARG";
+            Caso(3); 
+                arreglo_servidores[I].Ubicacion = "Bogotá/COL";
+        Fin_Caso
+
+        mod_est = (I^3239437) Mod 3;
+        En_Caso (mod_est) Sea;
+            Caso(0); 
+                arreglo_servidores[I].Estado_Red = "Activa";
+            Caso(1); 
+                arreglo_servidores[I].Estado_Red = "Inactiva";
+            Caso(2); 
+                arreglo_servidores[I].Estado_Red = "Standby";
+        Fin_Caso
+
+        mod_cap = ((I^1934967) Mod 20) + 1;
+        arreglo_servidores[I].Capacidad_TB = mod_cap;
+    Fin_Para
+
+    // ID especiales a los 3 Nodos Maestros
+    arreglo_servidores[25].ID_Server = 9999;
+    arreglo_servidores[50].ID_Server = 8888;
+    arreglo_servidores[75].ID_Server = 7777;
+
+    Mostrar << "100 servidores mapeados exitosamente de forma automatizada.";
+Fin_Procedimiento
+
+Procedimiento Buscar_Nodos_Maestros(E: arreglo_servidores[I].ID_Server: entero, E/S: Acceso_Nodos: booleano);
+Inicio
+    var I, n1, n2, n3, hallados: entero;
+    hallados = 0;
+
+    Mostrar << "--- PROTOCOLO DE DEFENSA ---";
+    Mostrar << "Para asegurar el mapa de red, ingrese el ID numérico de los 3 Nodos Maestros ocultos.";
+    //9999, 8888 y 7777
+    Mostrar << "Ingrese ID Nodo 1: ";
+    Leer >> n1;
+    Mostrar << "Ingrese ID Nodo 2: ";
+    Leer >> n2;
+    Mostrar << "Ingrese ID Nodo 3: ";
+    Leer >> n3;
+
+    Mostrar << "Rastreando (" , n1 , ", " , n2 , ", " , n3 , ") en la Red de 100 servidores...";
+    Para (I = 1 hasta 100) Hacer
+        Si  (arreglo_servidores[I].ID_Server = n1) or (arreglo_servidores[I].ID_Server = n2) or  (arreglo_servidores[I].ID_Server = n3) Entonces;
+            hallados = hallados + 1;
+            Mostrar << "¡Nodo Maestro hallado en posición de registro [" , I , "]!";
+        Fin_Si
+    Fin_Para
+
+    Si (hallados = 3) Entonces;
+        Acceso_Nodos = 1;
+        Mostrar << "Integridad de la red verificada.";
+    Sino
+        Acceso_Nodos = 0;
+        Mostrar << "Error: Nodos Maestros no localizados o conteo incorrecto (" , hallados , "/3).";
+    Fin_Si
+Fin_Procedimiento
+
+Procedimiento Filtrar_Inactivos(E: arreglo_servidores[I].ID_Server: entero, arreglo_servidores[I].Ubicacion, arreglo_servidores[I].Estado_Red: cadena, arreglo_servidores[I].Capacidad_TB: entero);
+Inicio
+    var I, contador: entero;
+    contador = 0;
+
+    Mostrar << "[FILTRO: SERVIDORES INACTIVOS]";
+    Para (I = 1 hasta 100) Hacer
+        Si  (arreglo_servidores[I].Estado_Red = "Inactiva") Entonces;
+            Mostrar << "Silo [" , arreglo_servidores[I].ID_Server , "] - " , arreglo_servidores[I].Ubicacion , " | Capacidad: " , arreglo_servidores[I].Capacidad_TB , " TB";
+            contador = contador + 1;
+        Fin_Si
+    Fin_Para
+    Mostrar << "Total de servidores en estado Inactiva: " << contador;
+Fin_Procedimiento
+
+Procedimiento Calcular_Capacidad(E: arreglo_servidores[I].Capacidad_TB: entero);
+Inicio
+    var I, capacidad_total: entero;
+    capacidad_total = 0;
+
+    Mostrar << "[CÁLCULO DE CAPACIDAD DE RED]";
+    Para (I = 1 hasta 100) Hacer
+        capacidad_total = capacidad_total + arreglo_servidores[I].Capacidad_TB;
+    Fin_Para
+
+    Mostrar << "La capacidad total de la red respaldada es: " << capacidad_total << " TB";
+Fin_Procedimiento
+
+Procedimiento Proteger_Criticos(E/S: arreglo_servidores[I].Capacidad_TB: entero, arreglo_servidores[I].Estado_Red: cadena);
+Inicio
+    var I, modificados: entero;
+    modificados = 0;
+
+    Mostrar << "[AUDITORÍA Y PROTECCIÓN DE NODOS CRÍTICOS]";
+    Mostrar << "Buscando servidores con capacidad menor a 5 TB...";
+    
+    Para (I = 1 hasta 100) Hacer
+        Si  (arreglo_servidores[I].Capacidad_TB < 5) Entonces;
+            arreglo_servidores[I].Estado_Red = "Precaución";
+            modificados = modificados + 1;
+        Fin_Si
+    Fin_Para
+
+    Mostrar << "Auditoría finalizada. " , modificados , " servidores pasaron al estado 'Precaución'.";
+Fin_Procedimiento
+
+Procedimiento Ruta_Corta_Dijkstra(E: matriz_latencias[4][4]: entero, nodo_origen, nodo_destino: entero);
+Inicio
+    var dist[4], visitado[4]: entero;
+    var I, J, min_dist, u: entero;
+    var INF: entero;
+    INF = 9999;
+    
+    Para (I = 1 hasta 4) Hacer;
+        dist[I] = INF;
+        visitado[I] = 0;
+    Fin_Para
+    
+    dist[nodo_origen] = 0;
+    
+    Para (I = 1 hasta 4 - 1) Hacer;
+        min_dist = INF;
+        u = -1;
+        
+        Para (J = 1 hasta 4) Hacer;
+            Si (visitado[J] = 0) and (dist[J] <= min_dist) Entonces;
+                min_dist = dist[J];
+                u = J;
+            Fin_Si
+        Fin_Para
+        
+        visitado[u] = 1;
+        
+        Para (J = 1 hasta 4) Hacer;
+            Si (visitado[J] = 0) and (matriz_latencias[u][J] != 0) and (dist[u] != INF) Entonces;
+                Si (dist[u] + matriz_latencias[u][J] < dist[J]) Entonces;
+                    dist[J] = dist[u] + matriz_latencias[u][J];
+                Fin_Si
+            Fin_Si
+        Fin_Para
+    Fin_Para
+    
+    Si (dist[nodo_destino] = INF) Entonces;
+        Mostrar << "Error: No hay ruta disponible al nodo de destino.";
+    Sino
+        Mostrar << "[ENLACE ÓPTIMO ESTABLECIDO]";
+        Mostrar << "La latencia mínima (" , nodo_origen , " -> " , nodo_destino , ") en la interconexión es: " , dist[nodo_destino] , " ms";
+        Mostrar << "Protocolo de enrutamiento finalizado con éxito.";
+    Fin_Si
+Fin_Procedimiento
