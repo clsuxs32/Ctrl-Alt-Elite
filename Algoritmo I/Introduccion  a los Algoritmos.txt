@@ -1,117 +1,70 @@
-/*
-Martín "Zero" Vega y su equipo necesitan calcular datos básicos sobre sus integrantes y el proyecto OASIS para preparar su primer hackeo a Meridian Corp.
+LOCALIZACIÓN DEL SERVIDOR MERIDIAN
 
-Realizar los siguientes cálculos e impresiones utilizando únicamente variables simples y operaciones aritméticas básicas(suma de todas las edades, promedio de años de experiencia del equipo, año del proyecto oasis, presupuesto total de Meridiam):
+Gabriel Vega dejó una pista encriptada en sus notas personales. La pista indica que la dirección IP del servidor de Meridian Technologies se puede deducir sumando los valores numéricos de las letras del nombre de la corporación.
+Martín debe escribir un algoritmo que tome el nombre "MERIDIAN", convierta cada letra a su número correspondiente en el alfabeto (A=1, B=2, ..., Z=26) y agrupe estos números para formar los 4 octetos de una dirección IP válida.
 
-datos de los miembros:
-Miembro                      Alias             Edad          Años_de_experiencia
-Martín Vega                  Zero              13                   2
-Lucía Morales                Hex               17                   5
-Santiago Herrera             Daemon            15                   4
-Valentina Rojas              Void              16                   3
+Objetivo
+Se necesita un algoritmo secuencial que calcule la Dirección IP del servidor basándose en la suma de pares de letras del nombre "MERIDIAN" y que luego de obtenido el código lo muestre por pantalla.
 
-Datos del Proyecto: OASIS
-Año de inicio del proyecto: 2015
-Año actual: 2026
-Ingenieros en Meridian: 150
-Servidores monitoreados: 5000
-Presupuesto por ingeniero: 120000$
+Datos (Pista del Padre)
+•	Nombre del Servidor: MERIDIAN
+•	Método de Cifrado: Posición alfabética (A=1, B=2, ... Z=26).
+•	Estructura de la IP: Se formarán 4 octetos sumando 2 letras cada uno.
+•	Octeto 1: M + E
+•	Octeto 2: R + I
+•	Octeto 3: D + I
+•	Octeto 4: A + N
 
-*/
-
+TABLA DE REFERENCIA
+Esta tabla explica por qué el código se realiza de esta manera. Cada letra tiene un valor numérico fijo según su posición en el alfabeto.
 
 
 
-Algoritmo Datos_iniciales
-
-INICIO
-var nombre1, nombre2, nombre3, nombre4, alias1, alias2, alias3, alias4: cadena, edad1, edad2, edad3, edad4, expe1, expe2, expe3, expe4, anno_inicio, anno_actual, num_ingenieros, num_servidores, presupuesto_ingeniero: entero;
-   
-    // Miembro 1: Martín "Zero" Vega
-    alias1 = "Zero";
-    nombre1 = "Martín Vega";
-    edad1 = 13;
-    expe1 = 2;
-
-    // Miembro 2: Lucía "Hex" Morales
-    alias2 = "Hex";
-    nombre2 = "Lucía Morales";
-    edad2 = 17;
-    expe2 = 5;
-
-    // Miembro 3: Santiago "Daemon" Herrera
-    alias3 = "Daemon";
-    nombre3 = "Santiago Herrera";
-    edad3 = 15;
-    expe3 = 4;
-
-    // Miembro 4: Valentina "Void" Rojas
-    alias4 = "Void";
-    nombre4 = "Valentina Rojas";
-    edad4 = 16;
-    expe4 = 3;
-
-    // ========================================
-    // DATOS DE MERIDIAN CORP Y PROYECTO OASIS
-    // ========================================
-
-    anno_inicio = 2015;
-    anno_actual = 2024;
-    num_ingenieros = 150;
-    num_servidores = 5000;
-    presupuesto_ingeniero = 120000;
-
-   
-    // Años del proyecto OASIS
-    annos_proyecto = anno_actual - anno_inicio;
-
-    // Presupuesto total de Meridian
-    presupuesto_total = num_ingenieros * presupuesto_ingeniero;
-
-    // Promedio de experiencia del equipo
-    experiencia_total = expe1 + expe2 + expe3 + expe4;
-    promedio_experiencia = experiencia_total / 4;
-
-    // Suma de edades del equipo
-    suma_edades = edad1 + edad2 + edad3 + edad4;
-
- 
-   Mostrar<<"========================================";
-   Mostrar<< "     LOS ESPECTROS DIGITALES";
-   Mostrar<< "========================================";
-  
-   Mostrar<< "--- PERFIL DE INTEGRANTES ---";
-   Mostrar<<"1. ", alias1, " - ", nombre1;
-   Mostrar<< "   Edad: ", edad1, " años";
-   Mostrar<< "   Experiencia: ", expe1, " años";
-  
-   Mostrar<< "2. ", alias2, " - ", nombre2;
-   Mostrar<< "   Edad: ", edad2, " años";
-   Mostrar<< "   Experiencia: ", expe2, " años";
-   
-   Mostrar<< "3. ", alias3, " - ", nombre3;
-   Mostrar<< "   Edad: ", edad3, " años";
-   Mostrar<< "   Experiencia: ", expe3, " años";
- 
-   Mostrar<< "4. ", alias4, " - ", nombre4;
-   Mostrar<< "   Edad: ", edad4, " años";
-   Mostrar<< "   Experiencia: ", expe4, " años";
-
-   Mostrar<< "--- ESTADÍSTICAS DEL EQUIPO ---";
-   Mostrar<< "Suma de edades: ", suma_edades, " años";
-   Mostrar<< "Promedio de experiencia: ", promedio_experiencia, " años";
-
-   Mostrar<< "--- INFORMACIÓN DE MERIDIAN CORP ---";
-   Mostrar<< "Proyecto: OASIS";
-   Mostrar<< "Años en desarrollo: ", annos_proyecto;
-   Mostrar<< "Ingenieros asignados: ", num_ingenieros;
-   Mostrar<< "Servidores monitoreados: ", num_servidores;
-   Mostrar<< "Presupuesto por ingeniero: $", presupuesto_ingeniero;
-   Mostrar<< "PRESUPUESTO TOTAL: $", presupuesto_total;
- 
-   Mostrar<< "========================================";
-   Mostrar<< "     PREPARANDO EL HACKEO...";
-   Mostrar<< "========================================";
 
 
-FIN
+letra	Posición en el alfabeto	Valor numérico
+M	13ª letra	13
+E	5ª letra	8
+R	18ª letra	18
+I	9ª letra	9
+D	4ª letra	4
+I	9ª letra	9
+A	1ª letra	1
+N	14ª letra	14
+
+
+
+Algoritmo servidor
+Inicio
+Var M, E, R, I, D, I, A, N, Oc1, Oc2, Oc3, Oc4: Entero;
+
+Mostrar<<” Ingresa el valor de la letra M: ”;
+Leer>>M;
+Mostrar<<” Ingresa el valor de la letra E: ”;
+Leer>>E;
+Mostrar<<” Ingresa el valor de la letra R: ”;
+Leer>>R;
+Mostrar<<” Ingresa el valor de la letra R: ”;
+Leer>>R;
+Mostrar<<” Ingresa el valor de la letra I: ”;
+Leer>>I;
+Mostrar<<” Ingresa el valor de la letra D: ”;
+Leer>>D;
+Mostrar<<” Ingresa el valor de la letra I: ”;
+Leer>>I;
+Mostrar<<” Ingresa el valor de la letra A: ”;
+Leer>>A;
+Mostrar<<” Ingresa el valor de la letra N: ”;
+Leer>>N;
+Mostrar<<” Sumamos los octetos pares:”
+Oc1 = M + E;
+Oc2 = R + I;
+Oc3 = D + I;
+Oc4 = A +N;
+Mostrar<<” La IP secreta es:…”,Oc1, Oc2, Oc3, Oc4;
+
+
+
+
+Fin
+

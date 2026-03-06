@@ -1,0 +1,192 @@
+/*
+Cuando los Espectros Digitales decidieron unirse por primera vez, antes de saber lo que les esperaba, hicieron algo muy simple pero significativo:
+reunieron todo lo que tenían para comenzar la aventura.
+No eran armas ni tecnología avanzada.
+Eran cosas pequeñas, útiles, personales, creativas…
+Objetos que representaban quiénes eran y qué podían aportar al equipo.
+Para organizarlo, crearon un inventario inicial llamado:
+“Inventario de Partida “
+Este inventario se registró en una matriz de 4 filas x 3 columnas, donde cada fila representa a un miembro del equipo:
+1.	Martín
+2.	Lucía
+3.	Santiago
+4.	Valentina
+Y cada columna representa un tipo de objeto que aportaron,  (se le preguntara que cantidad de alguno de esos objetos tiene):
+1.	Objetos prácticos (linternas, cables, adaptadores)
+2.	Objetos personales (amuletos, libretas, fotos)
+3.	Objetos creativos (marcadores, notas, bocetos)
+Cada celda contiene la cantidad de objetos que cada Espectro aporta en esa categoría.
+Además, el equipo creó:
+•	un vector de 4 posiciones para almacenar el total aportado por cada Espectro
+•	un vector de 3 posiciones para almacenar el total por tipo de objeto
+Además, se encontraron equipos del padre de martin regados, que les serviran para despues, entre todos se han puesto manos a la obra para reunirlos, para almacenarlos usaron un vector
+Ahora, debemos crear un algoritmo capaz de:
+1.	Pida al usuario llenar una matriz de 4x3 con lo especificado anteriormente.
+2.	Rellene un vector de N cantidad de posiciones para almacenar los objetos del padre de martin
+3.	Cree un menú de impresión dependiendo de la opción del usuario donde se les mostrara lo siguiente 
+•	Cual es el objeto mas abundante
+•	Cual es el miembro que aporto mas
+•	Todos los artículos del padre de martin
+•	Todos los artículos de los miembros 
+*/
+
+Algoritmo Arreglos
+Inicio
+
+    espectros[4] = ["Martín", "Lucía", "SantIago", "ValentIna"];
+    categorias[3] = ["ObJetos práctIcos", "ObJetos personales", "ObJetos creatIvos"];
+    aportes[4][3] : entero;
+    total_espectro[4] : entero;
+    total_categoria[3] : entero;
+    objetos_padre[N];
+
+    N, I, J, op: entero;
+
+    Calculos(aportes, total_espectro[4], total_categoria[3]);
+
+    RepetIr
+        Mostrar << "=== MENÚ DEL INVENTARIO DE PARTIDA ===";
+        Mostrar << "1. Registrar aportes de los miembros";
+        Mostrar << "2. Registrar objetos del padre de Martín";
+        Mostrar << "3. Mostrar el objeto más abundante";
+        Mostrar << "4. Mostrar el miembro que más aportó";
+        Mostrar << "5. Mostrar todos los objetos del padre de Martín";
+        Mostrar << "6. Mostrar todos los artículos aportados por los miembros";
+        Mostrar << "7. Salir";
+        Mostrar << "Elige una opción:";
+        Leer >> op;
+
+        Mientras (op < 1 OR op > 7) Hacer;
+            Mostrar << "Opción inválida. Por favor, elige una opción entre 1 y 7: ";
+            Leer >> op;
+        Fin_Mientras
+
+        En caso (op > 0) sea;
+            Caso (op = 1);
+                Registrar_Aportes(aportes, espectros, categorias);
+                Mostrar << Registrar_Aportes;
+            Caso (op = 2):
+                Registrar_papaito(obJetos_padre, N);
+                Mostrar << Registrar_papaito;
+            Caso (op = 3):
+                Objeto_winner(total_categoria, categorias);
+                Mostrar<< Objeto_winner;
+            Caso (op = 4):
+                Miembro_winner(total_espectro, espectros);
+                Mostrar << Miembro_winner;           
+            Caso (op = 5): 
+                Mostrar_Objetos_Padre(obJetos_padre, N);
+                Mostrar << Mostrar_Objetos_Padre;
+            Caso (op = 6):
+                Mostrar_Aportes_Miembros(aportes, espectros, categorias);
+                Mostrar << Mostrar_Aportes_Miembros;
+            Otro caso:
+                Mostrar << "Saliendo del Sistema...";
+        Fin_caso
+
+    Hasta(opcion = 7);
+Fin_repetir
+Fin_Algoritmo
+
+
+Procedimiento Registrar_Aportes(E/S: aportes[4][3], espectros[4], categorias[3], E: I, J)
+Inicio
+    Para (I desde 1 hasta 4) Hacer;
+        Mostrar << "Aportes de ", espectros[I], ": ";
+        Para (J desde 1 hasta 3) Hacer;
+            Mostrar << "Cantidad de ", categorias[J], ": ";
+            Leer >> aportes[I][J];
+
+            mIentras(aportes[I][J] < 0) Hacer;
+                Mostrar << "No puede ser negativo. Intenta de nuevo: ";
+                Leer >> aportes[I][J];
+            Fin_MIentras
+        Fin_Para
+    Fin_Para
+Fin_Procedimiento
+
+
+Procedimiento Registrar_papaito (E/S: objetos_padre[N], N: entero, E: I)
+Inicio
+    Mostrar << "¿Cuántos objetos del padre de Martín deseas Registrar?";
+    Leer >> N;
+
+        Mientras(N <= 0) Hacer;
+            Mostrar << "El número debe ser poSitIvo. Intenta de nuevo: ";
+            Leer >> N;
+        Fin_mientras
+
+    Mostrar << "=== REGISTRO DE OBJETOS DEL PADRE DE MARTÍN ===";
+    Para (I desde 1 hasta N) Hacer;
+        Mostrar << "Ingresa el nombre del obJeto ", I, ": ";
+        Leer >> objetos_padre[I];
+    Fin_Para
+Fin_Procedimiento
+
+
+Procedimiento Calculos (E/S: aportes[4][3], total_espectro[4], total_categoria[3], E: I, J)
+Inicio
+    Para I desde 1 hasta 4 Hacer;
+        Para J desde 1 hasta 3 Hacer;
+            total_espectro[I] = total_espectro[I] + aportes[I][J];
+            total_categoria[J] = total_categoria[J] + aportes[I][J];
+        Fin_Para
+    Fin_Para
+Fin_Procedimiento
+
+
+Procedimiento Objeto_winner (total_categoria[3], categorias[3], E: I)
+Inicio
+    max = 0;
+    Para I desde 1 hasta 3 Hacer;
+        Si(total_categoria[I] > max) Entonces;
+            max = I;
+        Fin_Si
+        Si (max > total_categoria[I]) Entonces;
+            pivote = categorias[I];
+        Fin_Si
+    Fin_Para
+
+    Mostrar << "El objeto más abundante es: ", pivote;
+    Mostrar << " con ", max, " unidades.";
+Fin_Procedimiento
+
+Procedimiento Miembro_winner (total_espectro[4], espectros[4], E: I)
+Inicio
+    max = 0;
+    Para I desde 1 hasta 4 Hacer;
+        Si(total_espectro[I] > max) Entonces;
+            max = I;
+        Fin_Si
+        Si (max > total_espectro[I]) Entonces;
+            salio = espectros[I];
+        Fin_Si
+
+    Fin_Para
+
+    Mostrar << "El miembro que más aportó fue: ", salio,
+             " con ", max, " objetos.";
+Fin_Procedimiento
+
+
+
+Procedimiento Mostrar_Objetos_Padre(objetos_padre[N], N: entero, E: I)
+Inicio
+    Mostrar << "=== OBJETOS DEL PADRE DE MARTÍN ===";
+    Para I desde 1 hasta N Hacer;
+        Mostrar << objetos_padre[I];
+    Fin_Para
+Fin_Procedimiento
+
+
+
+Procedimiento Mostrar_Aportes_Miembros(aportes[4][3], espectros[4], categorias[3], E: I, J)
+Inicio
+    Mostrar << "=== APORTES DE LOS MIEMBROS ===";
+    Para I desde 1 hasta 4 Hacer;
+        Mostrar << espectros[I], ": ";
+        Para J desde 1 hasta 3 Hacer;
+            Mostrar << categorias[J], ": ", aportes[I][J];
+        Fin_Para
+    Fin_Para
+Fin_Procedimiento
