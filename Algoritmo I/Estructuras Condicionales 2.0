@@ -1,0 +1,100 @@
+Sistema de Apoyo a Los Espectros Digitales
+Contexto: Tras la muerte de Gabriel Vega, su hijo Martín ha iniciado una investigación clandestina contra la corporación Meridian. Para sobrevivir y descubrir la verdad, Martín cuenta con el apoyo de tres aliados clave: Lucía Morales (seguridad), Santiago Herrera (código) y Valentina Rojas (ingeniería social). Sin embargo, la situación es volátil y depende de múltiples factores en tiempo real.
+
+Objetivo: Desarrolle un algoritmo que simule el Sistema de Apoyo Táctico de Martín. Este sistema debe recibir datos ingresados por el usuario (que representan el estado actual de la misión) y determinar la acción inmediata que debe tomar Martín según las reglas de seguridad y disponibilidad del equipo.
+
+Requisitos del Algoritmo:
+
+Entrada de Datos: El algoritmo debe solicitar al usuario (por pantalla) el estado de la evidencia y la disponibilidad de los aliados.
+Estructuras Permitidas: Únicamente estructuras condicionales (Si, Entonces, Sino, FinSi).
+Permitido: Variables simples (Booleanas, Enteros, Caracteres).
+Salida: El algoritmo debe imprimir en pantalla la recomendación estratégica basada en la lógica condicional.
+Datos de Entrada Requeridos:
+
+¿Se ha encontrado el USB con la evidencia? (Sí/No)
+¿Se ha logrado descifrar el mensaje del USB? (Sí/No)
+¿Está disponible Lucía Morales? (Sí/No)
+¿Está disponible Santiago Herrera? (Sí/No)
+¿Está disponible Valentina Rojas? (Sí/No)
+¿Cuál es el nivel de peligro actual? (1: Bajo, 2: Medio, 3: Alto)
+Lógica de Negocio:
+
+Si no hay USB, la misión se detiene.
+Si hay USB pero no está descifrado, se debe priorizar el descifrado.
+Si está descifrado, se evalúa la disponibilidad del equipo y el nivel de peligro para decidir entre: infiltración inmediata, planificación segura, ocultamiento o acción individual.
+
+
+Algoritmo Sistema_apoyo
+Inicio
+var tieneUSB, mensaje_leido, luciad_disponible, santiago_disponible, valentina_disponible: booleano, nivel_peligro: entero;
+
+    // 1. Entrada de datos por pantalla
+    mostrar<<"=== SISTEMA DE APOYO TÁCTICO: PROYECTO ESPÉCTRO ===";
+    mostrar<<"¿Se ha encontrado el USB con la evidencia? (V para Sí, F para No)";
+    Leer>>tiene_USB;
+
+    Si (tiene_USB = true) Entonces;
+        
+        mostrar<<"¿Se ha logrado descifrar el mensaje del USB? (V para Sí, F para No)";
+        Leer>>mensaje_leido;
+
+        Si (mensajeLeido = true) Entonces;
+            
+            mostrar<<"¿Está disponible Lucía Morales? (V para Sí, F para No)";
+            Leer>>lucia_disponible;
+            
+            mostrar<<"¿Está disponible Santiago Herrera? (V para Sí, F para No)";
+            Leer>>santiago_disponible;
+            
+            mostrar<<"¿Está disponible Valentina Rojas? (V para Sí, F para No)";
+            Leer>>valentina_disponible;
+
+            mostrar<<"¿Cuál es el nivel de peligro actual? (1: Bajo, 2: Medio, 3: Alto)";
+            Leer>>nivel_peligro;
+
+                       
+            // Verificación de equipo completo
+            Si (lucia_disponible = true) and (santiago_disponible = true) and (valentina_disponible = true) Entonces;
+                
+                // Evaluación de riesgo con equipo completo
+                Si (nivelPeligro = 1) Entonces;
+                    mostrar<<"RECOMENDACIÓN: Infiltrarse en el servidor de Meridian inmediatamente.";
+                Sino
+                    Si (nivelPeligro = 2) Entonces;
+                        mostrar<<"RECOMENDACIÓN: Reunirse en el punto seguro y planificar el acceso.";
+                    Sino
+                        Si (nivelPeligro = 3) Entonces;
+                            mostrar<<"RECOMENDACIÓN: Ocultar la evidencia y esperar refuerzos.";
+                        Fin_Si
+                    Fin_Si
+                Fin_Si
+
+            Sino
+
+                // Evaluación de equipo incompleto o individual
+                Si (luciaDisponible = true) Entonces
+                    mostrar<<"RECOMENDACIÓN: Contactar a Lucía para romper sistemas de seguridad.";
+                Sino
+                    Si (santiago_disponible = true) Entonces;
+                        mostrar<<"RECOMENDACIÓN: Contactar a Santiago para analizar el código.";
+                    Sino
+                        Si (valentina_disponible = true) Entonces;
+                            mostrar<<"RECOMENDACIÓN: Contactar a Valentina para ingeniería social.";
+                        Sino
+                            mostrar<<"RECOMENDACIÓN: Martín debe actuar solo, pero con precaución extrema.";
+                        Fin_Si
+                    Fin_Si
+                Fin_Si
+            Fin_Si
+
+        Sino
+            // Mensaje no descifrado
+            mostrar<<"RECOMENDACIÓN: Intentar descifrar el mensaje encriptado antes de continuar.";
+        Fin_Si
+
+    Sino
+        // No hay evidencia física
+        mostrar<<"RECOMENDACIÓN: No hay evidencia. Esperar nuevos hallazgos en el departamento.";
+    Fin_Si
+
+Fin
