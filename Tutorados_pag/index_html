@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NULL_BREACH // ADMIN</title>
+    <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Rajdhani:wght@300;500;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+
+    <canvas id="matrix-canvas"></canvas>
+    <div class="corner tl"></div>
+    <div class="corner tr"></div>
+    <div class="corner bl"></div>
+    <div class="corner br"></div>
+
+    <div class="top-bar">
+        <span><span class="status-dot"></span>SISTEMA EN ALERTA — ACCESO NO AUTORIZADO DETECTADO</span>
+        <span class="right"><span class="blink">▮</span> SESSION: <span id="session-id">--------</span></span>
+    </div>
+
+    <section class="screen active" id="screen-cedula">
+        <div class="card fade-up" style="animation-delay:.3s;opacity:0">
+            <p class="eyebrow">// PROTOCOLO DE IDENTIFICACIÓN — FASE 01</p>
+            <div class="logo">NULL<span class="accent">_</span>BREACH</div>
+            <p class="sub">VERIFICA TU IDENTIDAD PARA CONTINUAR</p>
+            <p class="field-label">// NÚMERO DE CÉDULA</p>
+            <div class="input-row" id="cedula-row">
+                <span class="input-prefix">ID ▶</span>
+                <input class="text-input" id="cedula-input" type="text" inputmode="numeric"
+                    placeholder="_ _ _ _ _ _ _ _ _ _" maxlength="12">
+            </div>
+            <p class="hint-line" id="cedula-hint">Solo agentes autorizados pueden continuar.</p>
+            <button class="btn-full" onclick="validarCedula()">[ VERIFICAR IDENTIDAD ]</button>
+        </div>
+    </section>
+
+    <section class="screen" id="screen-admin">
+        <div class="card fade-in" style="max-width: 800px; width: 90%;">
+            <p class="eyebrow">// TERMINAL DE ADMINISTRACIÓN — NIVEL ROOT</p>
+            <div class="logo" style="font-size: 2.5rem;">ADMIN<span class="accent">_</span>CORE</div>
+
+            <div class="admin-sections">
+                <div>
+                    <p class="field-label">// GESTIÓN DE AGENTES AUTORIZADOS</p>
+                    <div class="input-row">
+                        <input class="text-input" id="admin-new-cedula" type="text" placeholder="Nueva Cédula...">
+                        <button class="access-btn" onclick="adminAgregarUsuario()">[ + ]</button>
+                    </div>
+                    <div class="scroll-area" style="margin-top: 10px;">
+                        <table class="user-list" id="admin-table">
+                            <thead>
+                                <tr>
+                                    <th>CÉDULA</th>
+                                    <th>CÓDIGO</th>
+                                    <th>ACCION</th>
+                                </tr>
+                            </thead>
+                            <tbody id="admin-user-body"></tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div>
+                    <p class="field-label" id="post-editor-label">// CREAR NUEVO ENIGMA (DOSSIER)</p>
+                    <input type="hidden" id="edit-post-index" value="-1">
+                    <div class="input-row">
+                        <span class="input-prefix">TITULO</span>
+                        <input class="text-input" id="post-title" type="text" placeholder="Ej: NODO-01">
+                    </div>
+                    <div class="input-row" style="height: 80px;">
+                        <span class="input-prefix">CONTENIDO</span>
+                        <textarea class="text-input" id="post-body" style="resize:none; padding-top:10px;"
+                            placeholder="Mensaje clasificado..."></textarea>
+                    </div>
+                    <div class="input-row">
+                        <span class="input-prefix">HIGHLIGHTS</span>
+                        <input class="text-input" id="post-hl" type="text"
+                            placeholder="Palabras clave (sep. por comas)">
+                    </div>
+                    <button class="btn-full" id="btn-save-post" onclick="adminGuardarPost()">[ PUBLICAR ENIGMA
+                        ]</button>
+                    <button class="btn-full" id="btn-cancel-edit" onclick="adminResetPostForm()"
+                        style="display:none; margin-top: 5px; border-color: var(--red); color: var(--red);">[ CANCELAR
+                        EDICIÓN ]</button>
+
+                    <p class="field-label" style="margin-top: 20px;">// LISTA DE ENIGMAS ACTIVOS</p>
+                    <div class="scroll-area" id="admin-posts-list"></div>
+                </div>
+            </div>
+
+            <button class="btn-full" onclick="location.reload()" style="margin-top: 2rem;">[ CERRAR SESIÓN ]</button>
+        </div>
+    </section>
+
+    <section class="screen" id="screen-codigo">
+        <div class="card fade-in" style="opacity:0">
+            <p class="eyebrow">// IDENTIDAD CONFIRMADA — CÓDIGO GENERADO</p>
+            <div class="warning-box">
+                ⚠ ESTE CÓDIGO ES ÚNICO E INTRANSFERIBLE<br>
+                Memorízalo o guárdalo en un lugar seguro.
+            </div>
+            <div class="code-display">
+                <p class="code-label">// TU CÓDIGO DE ACCESO NULL_BREACH</p>
+                <div class="code-value" id="codigo-display">--------</div>
+                <p class="code-digits" id="codigo-digits"></p>
+            </div>
+            <button class="copy-btn" onclick="copiarCodigo()">[ COPIAR CÓDIGO AL PORTAPAPELES ]</button>
+            <button class="btn-full" onclick="irAlLanding()">[ CONTINUAR AL SISTEMA → ]</button>
+        </div>
+    </section>
+
+    <section class="screen" id="screen-landing">
+        <div class="hero-wrap fade-up" style="opacity:0;animation-delay:.2s">
+            <p class="eyebrow">// ACCESO AL SISTEMA — INTRODUCE TU CÓDIGO</p>
+            <div class="logo">NULL<span class="accent">_</span>BREACH</div>
+        </div>
+        <div class="terminal">
+            <div class="t-bar">
+                <div class="t-dot r"></div>
+                <div class="t-dot y"></div>
+                <div class="t-dot g"></div>
+                <span class="t-title">root@nullbreach:~$</span>
+            </div>
+            <div class="t-body" id="t-lines"></div>
+        </div>
+        <div class="access-wrap" style="width:100%; max-width:700px">
+            <div class="access-row">
+                <span class="access-prefix">breach:~$</span>
+                <input class="access-input" id="access-input" type="text" maxlength="14"
+                    style="text-transform:uppercase">
+                <button class="access-btn" onclick="verificarAcceso()">EJECUTAR</button>
+            </div>
+        </div>
+    </section>
+
+    <section class="screen" id="screen-enigma">
+        <div class="enigma-wrap fade-in" style="width: 100%; max-width: 700px;">
+            <div class="access-granted">
+                <div class="granted-tag">ACCESO CONCEDIDO</div>
+                <div class="granted-title">BIENVENIDO, AGENTE</div>
+                <p id="agent-id-display" class="agent-id"></p>
+            </div>
+
+            <div id="posts-container">
+            </div>
+
+            <div class="progress-bar">
+                <div class="progress-fill" id="progress-fill"></div>
+            </div>
+            <button class="btn-full" onclick="location.reload()" style="max-width: 200px; margin: 20px auto;">[
+                DESCONECTAR ]</button>
+        </div>
+    </section>
+
+    <script src="js/main.js"></script>
+</body>
+
+</html>
