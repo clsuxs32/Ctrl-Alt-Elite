@@ -1,163 +1,275 @@
 <!DOCTYPE html>
 <html lang="es">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NULL_BREACH // ADMIN</title>
-    <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Rajdhani:wght@300;500;700&display=swap"
-        rel="stylesheet">
+    <title>NULL_BREACH // SYSTEM</title>
+    <!-- Use Rajdhani and JetBrains Mono / Share Tech Mono -->
+    <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Rajdhani:wght@300;500;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/style.css">
+    <style>
+        /* Agregados rápidos para modales estéticos */
+        .modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.85); z-index: 999; justify-content: center; align-items: center; }
+        .modal.active { display: flex; animation: fadeIn .3s ease; }
+        .modal-content { border: 1px solid var(--border); background: var(--bg); padding: 2rem; width: 95%; max-width: 500px; }
+        .hint-reveal { color: var(--amber); margin: 15px 0; font-size: 14px; border-left: 3px solid var(--amber); padding-left: 10px; }
+        .action-flex { display: flex; gap: 10px; margin-top: 20px;}
+        .log-box { font-size: 11px; max-height: 150px; overflow-y: auto; color: var(--green-dim); line-height: 1.6; border: 1px dashed var(--border); padding: 10px; }
+    </style>
 </head>
-
 <body>
-
     <canvas id="matrix-canvas"></canvas>
-    <div class="corner tl"></div>
-    <div class="corner tr"></div>
-    <div class="corner bl"></div>
-    <div class="corner br"></div>
+    <div class="corner tl"></div><div class="corner tr"></div>
+    <div class="corner bl"></div><div class="corner br"></div>
 
     <div class="top-bar">
-        <span><span class="status-dot"></span>SISTEMA EN ALERTA — ACCESO NO AUTORIZADO DETECTADO</span>
-        <span class="right"><span class="blink">▮</span> SESSION: <span id="session-id">--------</span></span>
+        <span><span class="status-dot"></span>SYS_STATE: MONITORING COMMS</span>
+        <span class="right"><span class="blink">▮</span> CONEXIÓN ENCRIPTADA</span>
     </div>
 
-    <section class="screen active" id="screen-cedula">
-        <div class="card fade-up" style="animation-delay:.3s;opacity:0">
-            <p class="eyebrow">// PROTOCOLO DE IDENTIFICACIÓN — FASE 01</p>
+    <!-- PANTALLA 0: LANDING (ELECCIÓN) -->
+    <section class="screen active" id="screen-landing">
+        <div class="hero-wrap fade-up" style="text-align: center;">
+            <p class="eyebrow">// PORTAL PRINCIPAL DE OPERACIONES</p>
             <div class="logo">NULL<span class="accent">_</span>BREACH</div>
-            <p class="sub">VERIFICA TU IDENTIDAD PARA CONTINUAR</p>
-            <p class="field-label">// NÚMERO DE CÉDULA</p>
-            <div class="input-row" id="cedula-row">
-                <span class="input-prefix">ID ▶</span>
-                <input class="text-input" id="cedula-input" type="text" inputmode="numeric"
-                    placeholder="_ _ _ _ _ _ _ _ _ _" maxlength="12">
+            <div class="sub">PROTOCOLOS CERRADOS - SE REQUIERE AUTORIZACIÓN</div>
+            
+            <div style="display:flex; justify-content:center; gap: 20px; margin-top: 3rem; flex-wrap: wrap;">
+                <button class="btn-full" id="go-to-login" style="max-width:220px; font-size:16px;">[ LOG IN ]</button>
+                <button class="btn-full" id="go-to-registro" style="max-width:220px; font-size:16px; border-color:var(--cyan); color:var(--cyan);">[ REGISTRO ]</button>
             </div>
-            <p class="hint-line" id="cedula-hint">Solo agentes autorizados pueden continuar.</p>
-            <button class="btn-full" onclick="validarCedula()">[ VERIFICAR IDENTIDAD ]</button>
+            
+            <div style="margin-top: 3rem; max-width: 500px; margin-left: auto; margin-right: auto; text-align:left;">
+                <p class="eyebrow">// MONITOREO DE RED GLOBAL (LOGS)</p>
+                <div class="log-box scroll-area" id="global-log-box">Cargando eventos...</div>
+            </div>
         </div>
     </section>
 
-    <section class="screen" id="screen-admin">
-        <div class="card fade-in" style="max-width: 800px; width: 90%;">
-            <p class="eyebrow">// TERMINAL DE ADMINISTRACIÓN — NIVEL ROOT</p>
-            <div class="logo" style="font-size: 2.5rem;">ADMIN<span class="accent">_</span>CORE</div>
+    <!-- PANTALLA 1: REGISTRO NUEVO INGRESO -->
+    <section class="screen" id="screen-registro">
+        <div class="card fade-up">
+            <p class="eyebrow">// ALTA PROVISIONAL DE AGENTE</p>
+            <div class="logo" style="font-size: 3rem;">INICIA<span class="accent">_</span></div>
+            <div class="input-row" style="margin-top: 20px;">
+                <span class="input-prefix">CÉDULA</span>
+                <input class="text-input" id="reg-cedula" type="text" placeholder="Sin formato (Ej: 28442999)" maxlength="12">
+            </div>
+            <div class="input-row">
+                <span class="input-prefix">CURSO</span>
+                <select class="text-input" id="reg-subject" style="background:#020a02; color:var(--green); cursor:pointer;">
+                    <option value="" disabled selected>...ASIGNACIÓN...</option>
+                    <option value="Algoritmo 1">Algoritmo 1</option>
+                    <option value="Algoritmo 2">Algoritmo 2</option>
+                </select>
+            </div>
+            <div class="input-row">
+                <span class="input-prefix">NO. GRUPO</span>
+                <input class="text-input" id="reg-group" type="text" placeholder="Designación Ej: 'Alfa' o 'Sec 12'">
+            </div>
+            <p class="hint-line" id="reg-feedback"></p>
+            <div class="action-flex">
+                <button class="btn-full" id="btn-reg-cancel" style="border-color:transparent;">VOLVER</button>
+                <button class="btn-full" id="btn-reg-submit" style="color:#000; background:var(--cyan);">[ GENERAR ALTA ]</button>
+            </div>
+        </div>
+    </section>
 
-            <div class="admin-sections">
+    <!-- PANTALLA 2: LOGIN -->
+    <section class="screen" id="screen-login">
+        <div class="card fade-up">
+            <p class="eyebrow">// PUERTA LÓGICA 01</p>
+            <div class="logo" style="font-size: 3.5rem;">ACCESS<span class="accent">_</span></div>
+            <p class="sub">INGRESE CÉDULA O CÓDIGO SECRETO</p>
+            <div class="input-row">
+                <span class="input-prefix">ID ▶</span>
+                <input class="text-input" id="login-input" type="text" placeholder="CREDENCIAL..." style="text-transform:uppercase">
+            </div>
+            <p class="hint-line" id="login-feedback"></p>
+            <div class="action-flex">
+                <button class="btn-full" id="btn-login-cancel" style="border-color:transparent;">VOLVER</button>
+                <button class="btn-full" id="btn-login-submit">[ EJECUTAR ]</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- PANTALLA 3: CÓDIGO GENERADO ÉXITO -->
+    <section class="screen" id="screen-codigo">
+        <div class="card fade-in">
+            <p class="eyebrow">// ASIGNACIÓN COMPLETADA</p>
+            <div class="warning-box">
+                ⚠ TU LLAVE CRIPTOGRÁFICA GENERADA ES ÚNICA.<br>Memórizala para evitar dejar rastros digitales.
+            </div>
+            <div class="code-display">
+                <div class="code-value" id="generated-code-display">--------</div>
+            </div>
+            <button class="copy-btn" id="btn-copy-code">[ COPIAR PORTAPAPELES ]</button>
+            <button class="btn-full" id="btn-code-continue" style="color:#000; background:var(--green);">[ CONECTAR DIRECTO ]</button>
+        </div>
+    </section>
+
+    <!-- PANTALLA 4: PANEL ESTUDIANTE (ENIGMAS Y SOLUCIONES) -->
+    <section class="screen" id="screen-student">
+        <div style="width:100%; max-width:900px;" class="fade-in">
+            <div style="border: 1px solid var(--border); padding: 1.5rem; background: var(--surface); display:flex; justify-content:space-between; align-items:center; margin-bottom: 2rem;">
                 <div>
-                    <p class="field-label">// GESTIÓN DE AGENTES AUTORIZADOS</p>
+                    <h2 style="font-family:var(--title); font-size: 2rem; color:#fff;">AGENTE_ID: <span id="student-id-display" class="accent">...</span></h2>
+                    <p style="font-size: 12px; color: var(--cyan); letter-spacing: 0.2em; margin-top:5px;">RANGO: <span id="student-rank-display">...</span> | PUNTOS LÓGICOS: <span id="student-score-display">0</span></p>
+                </div>
+                <button class="btn-full btn-logout" style="width: auto; padding: 0.5rem 1rem;">[ ABORTAR ]</button>
+            </div>
+
+            <!-- Tablero de Misiones -->
+            <p class="eyebrow">// TRANSMISIONES INTERCEPTADAS (RUTINAS PENDIENTES)</p>
+            <div id="student-posts-container" style="display: grid; gap: 15px;">
+                <!-- Enigmas injected here -->
+            </div>
+        </div>
+    </section>
+
+    <!-- PANTALLA 5: PANEL ADMIN (EVALUACIÓN) -->
+    <section class="screen" id="screen-admin">
+        <div class="card fade-in" style="max-width: 1000px; width: 95%;">
+            <div style="display:flex; justify-content:space-between; align-items:flex-end; border-bottom:1px solid var(--border); padding-bottom:15px; margin-bottom: 20px;">
+                <div>
+                    <p class="eyebrow">// OVERSEER NODE</p>
+                    <div class="logo small" style="font-size: 3rem;">ROOT<span class="accent">_</span></div>
+                </div>
+                <button class="btn-full btn-logout" style="width: auto; padding: 0.5rem 1rem;">[ LOGOUT ]</button>
+            </div>
+
+            <div style="display: grid; grid-template-columns: 1fr 1.2fr; gap: 2rem;">
+                <!-- COLUMNA A: Usuarios y Ranking -->
+                <div>
+                    <p class="field-label">// RANKING Y OPERATIVOS ACTIVOS</p>
                     <div class="input-row">
-                        <input class="text-input" id="admin-new-cedula" type="text" placeholder="Nueva Cédula...">
-                        <button class="access-btn" onclick="adminAgregarUsuario()">[ + ]</button>
+                        <select class="text-input" id="admin-new-user-role" style="background:transparent; color:var(--green); border-right:1px solid var(--border); border-left:none; border-top:none; border-bottom:none; max-width:100px; cursor:pointer;">
+                            <option value="agente">AGENTE</option>
+                            <option value="admin">ADMIN</option>
+                        </select>
+                        <input class="text-input" id="admin-new-user-input" type="text" placeholder="Registrar cédula...">
+                        <button class="access-btn" id="btn-admin-add-root">+</button>
                     </div>
-                    <div class="scroll-area" style="margin-top: 10px;">
-                        <table class="user-list" id="admin-table">
+                    <div class="scroll-area" style="max-height: 400px; overflow-x: auto;">
+                        <table class="user-list">
                             <thead>
-                                <tr>
-                                    <th>CÉDULA</th>
-                                    <th>CÓDIGO</th>
-                                    <th>ACCION</th>
-                                </tr>
+                                <tr><th>AGENTE / CÓDIGO</th><th>MAT/GRP</th><th>PTS</th><th>ACT</th></tr>
                             </thead>
-                            <tbody id="admin-user-body"></tbody>
+                            <tbody id="admin-users-table"></tbody>
                         </table>
                     </div>
                 </div>
 
+                <!-- COLUMNA B: Enigmas y Evaluaciones -->
                 <div>
-                    <p class="field-label" id="post-editor-label">// CREAR NUEVO ENIGMA (DOSSIER)</p>
-                    <input type="hidden" id="edit-post-index" value="-1">
-                    <div class="input-row">
-                        <span class="input-prefix">TITULO</span>
-                        <input class="text-input" id="post-title" type="text" placeholder="Ej: NODO-01">
+                    <div style="border: 1px solid var(--border); background:rgba(0,0,0,0.4); padding: 15px; margin-bottom: 20px;">
+                        <p class="field-label" id="editor-title-label">// REDACTAR NUEVA MISIÓN (POST)</p>
+                        <input type="hidden" id="admin-post-id" value="-1">
+                        
+                        <div class="input-row"><span class="input-prefix">TITULO</span><input class="text-input" id="admin-post-title" type="text"></div>
+                        <div class="input-row" style="height: 60px;"><span class="input-prefix">CUERPO</span><textarea class="text-input" id="admin-post-body" style="resize:none; padding-top:10px;"></textarea></div>
+                        <div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px;">
+                            <div class="input-row"><span class="input-prefix">PTS MAX</span><input class="text-input" id="admin-post-pts" type="number"></div>
+                            <div class="input-row"><span class="input-prefix">LÍMITE</span><input class="text-input" id="admin-post-deadline" type="date"></div>
+                        </div>
+                        <div class="input-row"><span class="input-prefix">PISTA (-10%)</span><input class="text-input" id="admin-post-hint" type="text" placeholder="Texto clasificado..."></div>
+                        <div class="input-row"><span class="input-prefix">TAGS</span><input class="text-input" id="admin-post-tags" type="text" placeholder="Opcional"></div>
+                        
+                        <div class="action-flex" style="margin-top:10px;">
+                            <button class="btn-full" id="btn-admin-cancel-post" style="border-color:var(--amber); color:var(--amber); display:none;">CANCELAR</button>
+                            <button class="btn-full" id="btn-admin-save-post" style="background:var(--green-faint);">[ EXPORTAR MISIÓN ]</button>
+                        </div>
                     </div>
-                    <div class="input-row" style="height: 80px;">
-                        <span class="input-prefix">CONTENIDO</span>
-                        <textarea class="text-input" id="post-body" style="resize:none; padding-top:10px;"
-                            placeholder="Mensaje clasificado..."></textarea>
-                    </div>
-                    <div class="input-row">
-                        <span class="input-prefix">HIGHLIGHTS</span>
-                        <input class="text-input" id="post-hl" type="text"
-                            placeholder="Palabras clave (sep. por comas)">
-                    </div>
-                    <button class="btn-full" id="btn-save-post" onclick="adminGuardarPost()">[ PUBLICAR ENIGMA
-                        ]</button>
-                    <button class="btn-full" id="btn-cancel-edit" onclick="adminResetPostForm()"
-                        style="display:none; margin-top: 5px; border-color: var(--red); color: var(--red);">[ CANCELAR
-                        EDICIÓN ]</button>
 
-                    <p class="field-label" style="margin-top: 20px;">// LISTA DE ENIGMAS ACTIVOS</p>
-                    <div class="scroll-area" id="admin-posts-list"></div>
+                    <!-- Pestañas simples para vista Admin -->
+                    <div style="display:flex; border-bottom:1px solid var(--border); margin-bottom:10px;">
+                        <button class="tab-btn" id="tab-posts" style="flex:1; background:transparent; border:none; color:var(--green); border-bottom:2px solid var(--green); padding:10px; cursor:pointer; font-family:var(--mono);">$ LS POSTS</button>
+                        <button class="tab-btn" id="tab-subs" style="flex:1; background:transparent; border:none; color:var(--green-dim); padding:10px; cursor:pointer; font-family:var(--mono);">! EVALUAR_SOLUCIONES</button>
+                    </div>
+
+                    <!-- Lista Posts -->
+                    <div class="scroll-area" id="admin-list-posts" style="max-height: 250px;"></div>
+                    
+                    <!-- Lista Evaluaciones -->
+                    <div class="scroll-area" id="admin-list-subs" style="max-height: 250px; display:none;"></div>
+                    
                 </div>
             </div>
-
-            <button class="btn-full" onclick="location.reload()" style="margin-top: 2rem;">[ CERRAR SESIÓN ]</button>
         </div>
     </section>
 
-    <section class="screen" id="screen-codigo">
-        <div class="card fade-in" style="opacity:0">
-            <p class="eyebrow">// IDENTIDAD CONFIRMADA — CÓDIGO GENERADO</p>
-            <div class="warning-box">
-                ⚠ ESTE CÓDIGO ES ÚNICO E INTRANSFERIBLE<br>
-                Memorízalo o guárdalo en un lugar seguro.
-            </div>
-            <div class="code-display">
-                <p class="code-label">// TU CÓDIGO DE ACCESO NULL_BREACH</p>
-                <div class="code-value" id="codigo-display">--------</div>
-                <p class="code-digits" id="codigo-digits"></p>
-            </div>
-            <button class="copy-btn" onclick="copiarCodigo()">[ COPIAR CÓDIGO AL PORTAPAPELES ]</button>
-            <button class="btn-full" onclick="irAlLanding()">[ CONTINUAR AL SISTEMA → ]</button>
-        </div>
-    </section>
+    <!-- ================= MODALS ================= -->
 
-    <section class="screen" id="screen-landing">
-        <div class="hero-wrap fade-up" style="opacity:0;animation-delay:.2s">
-            <p class="eyebrow">// ACCESO AL SISTEMA — INTRODUCE TU CÓDIGO</p>
-            <div class="logo">NULL<span class="accent">_</span>BREACH</div>
-        </div>
-        <div class="terminal">
-            <div class="t-bar">
-                <div class="t-dot r"></div>
-                <div class="t-dot y"></div>
-                <div class="t-dot g"></div>
-                <span class="t-title">root@nullbreach:~$</span>
-            </div>
-            <div class="t-body" id="t-lines"></div>
-        </div>
-        <div class="access-wrap" style="width:100%; max-width:700px">
-            <div class="access-row">
-                <span class="access-prefix">breach:~$</span>
-                <input class="access-input" id="access-input" type="text" maxlength="14"
-                    style="text-transform:uppercase">
-                <button class="access-btn" onclick="verificarAcceso()">EJECUTAR</button>
+    <!-- SOLUCIONAR ENIGMA (ALUMNO) -->
+    <div class="modal" id="modal-solucion">
+        <div class="modal-content">
+            <p class="eyebrow">// TRANSMISIÓN HACKEADA</p>
+            <h3 id="modal-sol-title" style="margin-bottom:15px; color:#fff;"></h3>
+            <p style="font-size:12px; margin-bottom: 20px; line-height:1.7;">Registra tu solución en los campos correspondientes (puedes dejarlos en blanco si no aplican). Un Administrador la revisará.</p>
+            <input type="hidden" id="modal-sol-postid">
+            
+            <textarea class="text-input" id="modal-sol-enunciado" style="width:100%; height:60px; border:1px solid var(--border); background:var(--bg); margin-bottom:10px; resize:none;" placeholder="[OPCIONAL] Enunciado del Ejercicio..."></textarea>
+            <textarea class="text-input" id="modal-sol-codigo" style="width:100%; height:110px; border:1px solid var(--border); background:var(--bg); margin-bottom:10px; resize:none; font-family:var(--mono);" placeholder="[OPCIONAL] Código Algorítmico / Archivo..."></textarea>
+            <textarea class="text-input" id="modal-sol-explicacion" style="width:100%; height:75px; border:1px solid var(--border); background:var(--bg); margin-bottom:15px; resize:none;" placeholder="[OPCIONAL] Documentación o Explicación lógica..."></textarea>
+            
+            <p id="modal-sol-feedback" class="hint-line"></p>
+            <div class="action-flex">
+                <button class="btn-full" id="btn-close-sol-modal" style="border-color:transparent;">ABORTE</button>
+                <button class="btn-full" id="btn-send-solucion" style="background:var(--cyan); color:#000;">[ TRANSMITIR SOLUCIÓN ]</button>
             </div>
         </div>
-    </section>
+    </div>
 
-    <section class="screen" id="screen-enigma">
-        <div class="enigma-wrap fade-in" style="width: 100%; max-width: 700px;">
-            <div class="access-granted">
-                <div class="granted-tag">ACCESO CONCEDIDO</div>
-                <div class="granted-title">BIENVENIDO, AGENTE</div>
-                <p id="agent-id-display" class="agent-id"></p>
+    <!-- PISTA DE ENIGMA (ALUMNO) -->
+    <div class="modal" id="modal-pista">
+        <div class="modal-content">
+            <p class="eyebrow" style="color:var(--amber);">// ADVERTENCIA DE PENALIZACIÓN</p>
+            <h3 style="margin-bottom:15px; color:#fff;">¿SOLICITAR DESENCRIPTACIÓN?</h3>
+            <p style="font-size:12px; margin-bottom: 20px; line-height:1.7;">El administrador ha ocultado una pista para esta misión. Revelarla aplicará una deducción del <span style="color:var(--red);">10%</span> al puntaje máximo de tu evaluación final. ¿Deseas arriesgarte operario?</p>
+            
+            <div id="pista-caja-revelada" class="hint-reveal" style="display:none;"></div>
+            
+            <div class="action-flex" id="pista-botones">
+                <button class="btn-full" id="btn-close-pista-modal" style="border-color:transparent;">ATRÁS</button>
+                <button class="btn-full" id="btn-reveal-pista" style="background:var(--amber); color:#000;">[ DECODIFICAR PISTA ]</button>
             </div>
-
-            <div id="posts-container">
-            </div>
-
-            <div class="progress-bar">
-                <div class="progress-fill" id="progress-fill"></div>
-            </div>
-            <button class="btn-full" onclick="location.reload()" style="max-width: 200px; margin: 20px auto;">[
-                DESCONECTAR ]</button>
         </div>
-    </section>
+    </div>
 
-    <script src="js/main.js"></script>
+    <!-- EVALUAR SOLUCION (ADMIN) -->
+    <div class="modal" id="modal-evaluar">
+        <div class="modal-content">
+            <p class="eyebrow">// AUDITORÍA LÓGICA</p>
+            <h3 style="margin-bottom:10px; color:#fff;">Evaluando Agente: <span id="eval-agent" class="accent"></span></h3>
+            <p style="font-size:11px; margin-bottom: 15px;">Misión: <span id="eval-post" style="color:var(--cyan);"></span> | Puntos MAX: <span id="eval-maxpts"></span></p>
+            
+            <div style="font-size:11px; background:#000; padding:10px; border:1px dashed var(--border); margin-bottom: 5px; color:#aaa; max-height:80px; overflow-y:auto; font-family:var(--title);">
+                <strong>// 1. ENUNCIADO:</strong><br><span id="eval-ans-enunciado"></span>
+            </div>
+            <div style="font-size:11px; background:#000; padding:10px; border:1px dashed var(--cyan); margin-bottom: 5px; color:var(--cyan); max-height:120px; overflow-y:auto; font-family:var(--mono); white-space:pre-wrap;">
+                <strong>// 2. CÓDIGO:</strong><br><span id="eval-ans-codigo"></span>
+            </div>
+            <div style="font-size:11px; background:#000; padding:10px; border:1px dashed var(--amber); margin-bottom: 15px; color:var(--amber); max-height:80px; overflow-y:auto; font-family:var(--mono);">
+                <strong>// 3. DOCUMENTACIÓN / EXPLICATIVA:</strong><br><span id="eval-ans-explicacion"></span>
+            </div>
+            
+            <p id="eval-used-hint" style="font-size:11px; color:var(--red); font-weight:bold;"></p>
+            
+            <input type="hidden" id="eval-sub-id">
+            <input type="hidden" id="eval-stud-id">
+            
+            <div class="input-row" style="margin-top:20px;">
+                <span class="input-prefix" style="background:var(--green);">ASIGNAR (PTS)</span>
+                <input class="text-input" id="eval-score" type="number" placeholder="Ej: 90">
+            </div>
+            
+            <div class="action-flex">
+                <button class="btn-full" id="btn-close-eval-modal" style="border-color:transparent;">ATRÁS</button>
+                <button class="btn-full" id="btn-send-eval" style="background:var(--green); color:#000;">[ APROBAR CALIFICACIÓN ]</button>
+            </div>
+        </div>
+    </div>
+
+    <script type="module" src="js/main.js"></script>
 </body>
-
 </html>
